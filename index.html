@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NovaSMP — Minecraft сервер 24/7 | Версия 1.21.11</title>
+<meta name="description" content="NovaSMP — уютный Minecraft сервер 1.21.11, работающий 24/7 на хостинге Millida. Поддержка пиратки. Открытие скоро!">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Unbounded:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --radius: 20px;
+  --font-h: 'Unbounded', system-ui, sans-serif;
+  --font-b: 'Inter', system-ui, sans-serif;
+}
+html[data-theme="dark"]{
+  --bg:#07070f;
+  --bg-soft:#0d0d1a;
+  --card:rgba(255,255,255,.045);
+  --card-hover:rgba(255,255,255,.08);
+  --border:rgba(255,255,255,.09);
+  --text:#ececf5;
+  --muted:#9b9bb4;
+  --accent:#8b5cf6;
+  --accent-2:#22d3ee;
+  --shadow:0 24px 60px rgba(0,0,0,.5);
+  --glow:rgba(139,92,246,.35);
+}
+html[data-theme="light"]{
+  --bg:#f4f5fc;
+  --bg-soft:#ffffff;
+  --card:rgba(255,255,255,.75);
+  --card-hover:#ffffff;
+  --border:rgba(20,20,45,.10);
+  --text:#13132a;
+  --muted:#5d5d7a;
+  --accent:#7c3aed;
+  --accent-2:#0891b2;
+  --shadow:0 20px 45px rgba(45,45,100,.13);
+  --glow:rgba(124,58,237,.25);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-b);
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  line-height:1.65;
+  overflow-x:hidden;
+  transition:background .5s ease, color .5s ease;
+  -webkit-font-smoothing:antialiased;
+}
+.bg-blobs{position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.5;animation:float 18s ease-in-out infinite;}
+.blob.b1{width:520px;height:520px;background:var(--accent);top:-180px;left:-120px;}
+.blob.b2{width:420px;height:420px;background:var(--accent-2);top:20%;right:-140px;animation-delay:-6s}
+.blob.b3{width:380px;height:380px;background:var(--accent);bottom:-160px;left:30%;animation-delay:-11s;opacity:.35}
+@keyframes float{
+  0%,100%{transform:translate(0,0) scale(1)}
+  33%{transform:translate(50px,-40px) scale(1.12)}
+  66%{transform:translate(-40px,30px) scale(.94)}
+}
+body::before{
+  content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size:64px 64px;
+  mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, #000 25%, transparent 75%);
+  -webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, #000 25%, transparent 75%);
+  opacity:.7;transition:opacity .5s;
+}
+header{
+  position:sticky;top:0;z-index:100;
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  background:color-mix(in srgb, var(--bg) 75%, transparent);
+  border-bottom:1px solid var(--border);
+  transition:background .5s, border-color .5s;
+}
+.header-inner{
+  max-width:1180px;margin:0 auto;padding:14px 22px;
+  display:flex;align-items:center;gap:18px;
+}
+.logo{
+  font-family:var(--font-h);font-weight:900;font-size:1.28rem;letter-spacing:-.02em;
+  display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none;
+  background:linear-gradient(100deg,var(--accent),var(--accent-2),var(--accent));
+  background-size:220% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shine 6s linear infinite;
+}
+@keyframes shine{to{background-position:220% 0}}
+.logo .dot{
+  width:10px;height:10px;border-radius:50%;
+  background:linear-gradient(140deg,var(--accent),var(--accent-2));
+  box-shadow:0 0 14px var(--glow);
+  animation:pulse 2.4s ease-in-out infinite;
+  flex:none;
+}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.35);opacity:.65}}
+nav{display:flex;gap:6px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav button{
+  font-family:var(--font-b);font-size:.87rem;font-weight:500;
+  color:var(--muted);background:transparent;border:1px solid transparent;
+  padding:8px 14px;border-radius:12px;cursor:pointer;white-space:nowrap;
+  transition:color .25s, background .25s, border-color .25s, transform .2s;
+}
+nav button:hover{color:var(--text);background:var(--card);transform:translateY(-1px)}
+nav button.active{
+  color:var(--text);background:var(--card);border-color:var(--border);
+  box-shadow:0 0 0 1px var(--border) inset;
+}
+.theme-btn{
+  flex:none;width:42px;height:42px;border-radius:14px;cursor:pointer;
+  background:var(--card);border:1px solid var(--border);color:var(--text);
+  font-size:1.15rem;display:grid;place-items:center;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1), background .25s, border-color .25s;
+}
+.theme-btn:hover{transform:rotate(18deg) scale(1.08);background:var(--card-hover)}
+main{max-width:1180px;margin:0 auto;padding:52px 22px 90px;position:relative;z-index:1}
+.tab{display:none}
+.tab.active{display:block;animation:fadeUp .5s cubic-bezier(.22,1,.36,1) both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+h1{
+  font-family:var(--font-h);font-weight:900;
+  font-size:clamp(2.1rem,6vw,4.1rem);line-height:1.05;letter-spacing:-.03em;
+  margin-bottom:20px;
+}
+h2{
+  font-family:var(--font-h);font-weight:700;
+  font-size:clamp(1.4rem,3vw,2rem);letter-spacing:-.02em;margin-bottom:14px;
+}
+h3{font-family:var(--font-h);font-weight:500;font-size:1.05rem;margin-bottom:8px}
+p{color:var(--muted);font-size:1rem}
+.grad{
+  background:linear-gradient(100deg,var(--accent),var(--accent-2));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero{padding:34px 0 52px;max-width:760px}
+.hero p.lead{font-size:1.12rem;max-width:600px;margin-bottom:28px}
+.badges{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px}
+.badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:7px 15px;border-radius:999px;font-size:.83rem;font-weight:600;
+  background:var(--card);border:1px solid var(--border);color:var(--text);
+  backdrop-filter:blur(8px);
+  transition:transform .25s, background .25s;
+}
+.badge:hover{transform:translateY(-2px);background:var(--card-hover)}
+.badge.live::before{
+  content:'';width:8px;height:8px;border-radius:50%;background:#22c55e;
+  box-shadow:0 0 10px #22c55e;animation:pulse 1.8s infinite;
+}
+.badge.soon::before{
+  content:'';width:8px;height:8px;border-radius:50%;background:#f59e0b;
+  box-shadow:0 0 10px #f59e0b;animation:pulse 1.4s infinite;
+}
+.btn{
+  display:inline-flex;align-items:center;gap:9px;
+  font-family:var(--font-b);font-size:.94rem;font-weight:600;
+  padding:13px 24px;border-radius:14px;cursor:pointer;text-decoration:none;
+  border:1px solid var(--border);background:var(--card);color:var(--text);
+  transition:transform .25s cubic-bezier(.34,1.56,.64,1), background .25s, box-shadow .3s, border-color .25s;
+}
+.btn:hover{transform:translateY(-3px);background:var(--card-hover);box-shadow:0 12px 30px rgba(0,0,0,.18)}
+.btn.primary{
+  background:linear-gradient(115deg,var(--accent),var(--accent-2));
+  border-color:transparent;color:#fff;
+  box-shadow:0 10px 30px var(--glow);
+}
+.btn.primary:hover{box-shadow:0 16px 42px var(--glow)}
+.btn-row{display:flex;flex-wrap:wrap;gap:12px}
+.grid{display:grid;gap:18px;margin-top:26px}
+.grid.c2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.grid.c3{grid-template-columns:repeat(auto-fit,minmax(255px,1fr))}
+.card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:26px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  transition:transform .35s cubic-bezier(.22,1,.36,1), background .3s, border-color .3s, box-shadow .35s;
+  position:relative;overflow:hidden;
+}
+.card::after{
+  content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(130deg,transparent 40%,rgba(255,255,255,.06) 50%,transparent 60%);
+  opacity:0;transition:opacity .4s;
+}
+.card:hover{transform:translateY(-6px);background:var(--card-hover);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--accent) 35%,var(--border))}
+.card:hover::after{opacity:1}
+.card .icon{font-size:1.7rem;margin-bottom:12px;display:block}
+.card p{font-size:.94rem}
+.steps{counter-reset:s;display:grid;gap:14px;margin-top:22px}
+.step{
+  counter-increment:s;display:flex;gap:18px;align-items:flex-start;
+  background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px 22px;
+  transition:transform .3s, background .3s;
+}
+.step:hover{transform:translateX(6px);background:var(--card-hover)}
+.step::before{
+  content:counter(s);
+  font-family:var(--font-h);font-weight:700;font-size:.95rem;color:#fff;
+  min-width:38px;height:38px;border-radius:12px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  box-shadow:0 6px 18px var(--glow);flex:none;
+}
+.step b{display:block;margin-bottom:3px;font-size:.98rem}
+.step span{color:var(--muted);font-size:.92rem}
+.rule-section{margin-top:26px}
+.rule-section h3{
+  display:flex;align-items:center;gap:10px;
+  font-family:var(--font-h);font-weight:700;font-size:1.15rem;margin-bottom:14px;
+  padding-bottom:10px;border-bottom:1px solid var(--border);
+}
+.rule-section h3 .num{
+  display:grid;place-items:center;width:34px;height:34px;border-radius:10px;
+  font-size:.95rem;color:#fff;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  box-shadow:0 4px 14px var(--glow);
+}
+.rule-item{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:16px 20px;margin-bottom:10px;
+  transition:transform .3s, background .3s, border-color .3s;
+}
+.rule-item:hover{transform:translateX(5px);background:var(--card-hover);border-color:color-mix(in srgb,var(--accent) 30%,var(--border))}
+.rule-item .rule-id{
+  font-family:var(--font-h);font-weight:700;font-size:.85rem;
+  color:var(--accent-2);margin-right:8px;
+}
+.rule-item .rule-text{color:var(--text);font-size:.95rem;display:block;margin-bottom:6px}
+.rule-item .punish{
+  display:inline-block;font-size:.82rem;font-weight:600;
+  padding:4px 12px;border-radius:8px;margin-top:4px;
+  background:color-mix(in srgb,#ef4444 18%, transparent);
+  color:#f87171;border:1px solid color-mix(in srgb,#ef4444 30%, transparent);
+}
+.rule-item .punish.ok{
+  background:color-mix(in srgb,#22c55e 18%, transparent);
+  color:#4ade80;border-color:color-mix(in srgb,#22c55e 30%, transparent);
+}
+.list{display:grid;gap:12px;margin-top:22px}
+.list-item{
+  display:flex;gap:14px;align-items:flex-start;
+  background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px 22px;
+  transition:transform .3s, background .3s, border-color .3s;
+}
+.list-item:hover{transform:translateY(-3px);background:var(--card-hover);border-color:color-mix(in srgb,var(--accent) 30%,var(--border))}
+.list-item .mark{font-size:1.15rem;flex:none;line-height:1.5}
+.list-item b{display:block;margin-bottom:2px}
+.list-item span{color:var(--muted);font-size:.92rem}
+.danger .mark{color:#ef4444}
+.ok .mark{color:#22c55e}
+.role-card{display:flex;flex-direction:column;gap:10px}
+.role-card .tagline{
+  font-size:.76rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--accent-2);
+}
+.role-card .btn{margin-top:auto;justify-content:center}
+
+/* ============ СОЗДАТЕЛИ ============ */
+.creators-list{
+  display:grid;
+  gap:14px;
+  margin-top:26px;
+}
+.creator-row{
+  display:flex;
+  align-items:center;
+  gap:20px;
+  padding:22px 26px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  transition:transform .35s cubic-bezier(.22,1,.36,1), background .3s, border-color .3s, box-shadow .35s;
+}
+.creator-row:hover{
+  transform:translateY(-4px);
+  background:var(--card-hover);
+  border-color:color-mix(in srgb,var(--accent) 35%,var(--border));
+  box-shadow:var(--shadow);
+}
+.creator-row .avatar{
+  width:62px;
+  height:62px;
+  border-radius:18px;
+  flex:none;
+  display:grid;
+  place-items:center;
+  font-family:var(--font-h);
+  font-weight:700;
+  font-size:1.3rem;
+  color:#fff;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  box-shadow:0 8px 24px var(--glow);
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1);
+}
+.creator-row:hover .avatar{
+  transform:rotate(-8deg) scale(1.08);
+}
+.creator-info{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+  min-width:0;
+}
+.creator-info .name{
+  font-family:var(--font-h);
+  font-weight:700;
+  font-size:1.15rem;
+  color:var(--text);
+  line-height:1.2;
+}
+.creator-info .role{
+  font-size:.88rem;
+  color:var(--muted);
+}
+
+.countdown{display:flex;gap:14px;flex-wrap:wrap;margin:28px 0 8px}
+.cd-box{
+  min-width:96px;flex:1;text-align:center;padding:20px 12px;border-radius:18px;
+  background:var(--card);border:1px solid var(--border);
+  transition:transform .3s, background .3s;
+}
+.cd-box:hover{transform:translateY(-4px);background:var(--card-hover)}
+.cd-num{
+  font-family:var(--font-h);font-weight:900;font-size:clamp(1.6rem,5vw,2.4rem);
+  line-height:1;background:linear-gradient(120deg,var(--accent),var(--accent-2));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.cd-lbl{font-size:.76rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-top:8px}
+.note{
+  margin-top:26px;padding:20px 24px;border-radius:16px;font-size:.94rem;color:var(--muted);
+  background:color-mix(in srgb,var(--accent) 10%, transparent);
+  border:1px solid color-mix(in srgb,var(--accent) 28%, transparent);
+  border-left:3px solid var(--accent);
+}
+.section-head{margin-bottom:8px}
+.section-head p{max-width:640px}
+.divider{height:1px;background:var(--border);margin:44px 0}
+footer{
+  border-top:1px solid var(--border);position:relative;z-index:1;
+  background:color-mix(in srgb, var(--bg-soft) 60%, transparent);
+  backdrop-filter:blur(10px);
+}
+.footer-inner{
+  max-width:1180px;margin:0 auto;padding:34px 22px;
+  display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;
+}
+.footer-inner p{font-size:.86rem}
+.footer-links{display:flex;gap:16px;flex-wrap:wrap}
+.footer-links a{color:var(--muted);text-decoration:none;font-size:.86rem;transition:color .25s}
+.footer-links a:hover{color:var(--text)}
+#toast{
+  position:fixed;left:50%;bottom:34px;transform:translate(-50%,140%);
+  background:var(--bg-soft);color:var(--text);border:1px solid var(--border);
+  padding:13px 24px;border-radius:14px;font-size:.9rem;font-weight:500;
+  box-shadow:var(--shadow);z-index:999;opacity:0;
+  transition:transform .45s cubic-bezier(.34,1.56,.64,1), opacity .35s;
+  pointer-events:none;
+}
+#toast.show{transform:translate(-50%,0);opacity:1}
+@media (max-width:820px){
+  .header-inner{flex-wrap:wrap;gap:12px;padding:12px 18px}
+  nav{order:3;width:100%;margin-left:0;padding-bottom:4px}
+  .theme-btn{margin-left:auto}
+  main{padding:34px 18px 70px}
+  .footer-inner{flex-direction:column;text-align:center}
+}
+.reveal{opacity:0;transform:translateY(18px);animation:fadeUp .55s cubic-bezier(.22,1,.36,1) forwards}
+.reveal:nth-child(1){animation-delay:.05s}
+.reveal:nth-child(2){animation-delay:.12s}
+.reveal:nth-child(3){animation-delay:.19s}
+.reveal:nth-child(4){animation-delay:.26s}
+.reveal:nth-child(5){animation-delay:.33s}
+.reveal:nth-child(6){animation-delay:.4s}
+@media (prefers-reduced-motion: reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-blobs">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+</div>
+
+<header>
+  <div class="header-inner">
+    <div class="logo" onclick="show('home')"><span class="dot"></span>NovaSMP</div>
+    <nav id="nav">
+      <button data-tab="home" class="active">Главная</button>
+      <button data-tab="opening">Открытие</button>
+      <button data-tab="join">Как зайти</button>
+      <button data-tab="rules">Правила</button>
+      <button data-tab="apply">Заявки</button>
+      <button data-tab="safety">Безопасность</button>
+      <button data-tab="contacts">Создатели</button>
+    </nav>
+    <button class="theme-btn" id="themeBtn" title="Сменить тему">🌙</button>
+  </div>
+</header>
+
+<main>
+
+<!-- ================= ГЛАВНАЯ ================= -->
+<section class="tab active" id="home">
+  <div class="hero">
+    <div class="badges">
+      <span class="badge live">Работает 24/7</span>
+      <span class="badge">Хостинг Millida</span>
+      <span class="badge">Версия 1.21.11</span>
+      <span class="badge">Пиратка ✔</span>
+      <span class="badge soon">Скоро открытие</span>
+    </div>
+    <h1>Добро пожаловать в <span class="grad">NovaSMP</span></h1>
+    <p class="lead">
+      Анархичный SMP-сервер в Minecraft, где ценятся свобода, движ и честная игра.
+      Никаких лишних ограничений, гриф и PvP разрешены, а сервер работает 24/7
+      на надёжном хостинге Millida.
+    </p>
+    <div class="btn-row">
+      <a class="btn primary" href="https://discord.gg/QS2g7reeF" target="_blank" rel="noopener">💬 Наш Discord</a>
+      <button class="btn" onclick="show('opening')">🚀 Когда открытие?</button>
+    </div>
+  </div>
+
+  <div class="grid c3">
+    <div class="card reveal">
+      <span class="icon">⚡</span>
+      <h3>Работает 24/7</h3>
+      <p>Сервер не выключается: заходи в любое время дня и ночи, хоть в 4 утра.
+      Аптайм держим на максимуме.</p>
+    </div>
+    <div class="card reveal">
+      <span class="icon">🛡️</span>
+      <h3>Хостинг Millida</h3>
+      <p>Мощное железо и защита от DDoS. Никаких просадок TPS даже при большом онлайне.</p>
+    </div>
+    <div class="card reveal">
+      <span class="icon">🎮</span>
+      <h3>Версия 1.21.11</h3>
+      <p>Актуальная версия Minecraft Java Edition. Поддержка лицензии и пиратки — заходят все.</p>
+    </div>
+    <div class="card reveal">
+      <span class="icon">⚔️</span>
+      <h3>Анархия и свобода</h3>
+      <p>Гриф, кражи, PvP без согласия, ловушки — всё разрешено. Правила только против читов,
+      дюпов, докса и краш-багов.</p>
+    </div>
+    <div class="card reveal">
+      <span class="icon">🤝</span>
+      <h3>Своё комьюнити</h3>
+      <p>Discord с голосовыми каналами, TikTok с хайлайтами и Telegram-канал с новостями.</p>
+    </div>
+    <div class="card reveal">
+      <span class="icon">🚀</span>
+      <h3>Скоро открытие</h3>
+      <p>Ждём 15 человек в Discord — и запускаемся. Заходи, зови друзей и приближай открытие.</p>
+    </div>
+  </div>
+
+  <div class="note">
+    💡 <b>Факт от разработчиков:</b> NovaSMP собирается полностью с нуля — от конфигов
+    до этого сайта. Каждый блок в мире будет поставлен уже после открытия, так что ты
+    можешь стать частью самой первой эпохи сервера.
+  </div>
+</section>
+
+<!-- ================= ОТКРЫТИЕ ================= -->
+<section class="tab" id="opening">
+  <div class="section-head">
+    <h2>Открытие <span class="grad">NovaSMP</span></h2>
+    <p>Сервер откроется, как только в нашем Discord-сервере соберётся <b>15 участников</b>.
+    Заходи, приглашай друзей и приближай запуск!</p>
+  </div>
+
+  <div class="grid c2" style="margin-top:26px">
+    <div class="card reveal">
+      <span class="icon">🎯</span>
+      <h3>Цель: 15 человек в Discord</h3>
+      <p>Мы хотим стартовать с активным и живым комьюнити. Как только счётчик дойдёт
+      до 15 — объявляем точную дату и открываемся.</p>
+      <a class="btn primary" href="https://discord.gg/QS2g7reeF" target="_blank" rel="noopener" style="margin-top:16px">Зайти в Discord</a>
+    </div>
+    <div class="card reveal">
+      <span class="icon">🎉</span>
+      <h3>Ивент на открытии</h3>
+      <p>В первый день — мини-ивент для всех, кто зайдёт. Первые жители получат
+      особый статус в Discord и приятный стартовый набор.</p>
+    </div>
+  </div>
+
+  <div class="note">
+    🔔 Хочешь зайти в числе первых? Загляни в Discord и включи уведомления от канала
+    с анонсами — там появится IP сразу после запуска.
+  </div>
+</section>
+
+<!-- ================= КАК ЗАЙТИ ================= -->
+<section class="tab" id="join">
+  <div class="section-head">
+    <h2>Как зайти на сервер</h2>
+    <p>Сервер ещё не открыт, но подготовиться можно уже сейчас. Вот что понадобится.</p>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div><b>Minecraft Java Edition 1.21.11</b>
+      <span>Подойдёт как лицензия, так и пиратка. Версия сервера — строго 1.21.11.</span></div>
+    </div>
+    <div class="step">
+      <div><b>Зайди в наш Discord</b>
+      <span>Там публикуется IP-адрес, версия и все анонсы. Помоги собрать 15 человек для открытия!</span></div>
+    </div>
+    <div class="step">
+      <div><b>Дождись анонса открытия</b>
+      <span>IP-адрес появится здесь и в Discord сразу после запуска сервера.</span></div>
+    </div>
+    <div class="step">
+      <div><b>Добавь сервер в игре</b>
+      <span>«Сетевая игра» → «Добавить сервер» → вставь IP → «Готово» → подключайся.</span></div>
+    </div>
+    <div class="step">
+      <div><b>Прочитай правила</b>
+      <span>Перед игрой обязательно ознакомься с правилами — это займёт минуту.</span></div>
+    </div>
+  </div>
+
+  <div class="grid c2" style="margin-top:30px">
+    <div class="card reveal">
+      <span class="icon">🔌</span>
+      <h3>IP-адрес</h3>
+      <p style="font-family:var(--font-h);font-size:1.3rem;color:var(--text);margin:10px 0">
+        скоро откроется</p>
+      <button class="btn" onclick="toast('IP появится сразу после открытия 🚀')">📋 Скопировать IP</button>
+    </div>
+    <div class="card reveal">
+      <span class="icon">🧩</span>
+      <h3>Лицензия и пиратка</h3>
+      <p>Сервер доступен и с лицензии, и с пиратки. Версия клиента — 1.21.11.
+      Оптимизационные моды (Sodium, OptiFine) разрешены.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ПРАВИЛА ================= -->
+<section class="tab" id="rules">
+  <div class="section-head">
+    <h2>Правила сервера</h2>
+    <p>Мы за свободу, но есть вещи, которые ломают игру. Прочитай внимательно —
+    незнание правил не освобождает от ответственности (п. 7.3).</p>
+  </div>
+
+  <div class="rule-section">
+    <h3><span class="num">1</span> Читы</h3>
+    <div class="rule-item">
+      <span class="rule-id">1.1</span>
+      <span class="rule-text">Запрещены kill aura, fly, x-ray, auto-clicker, reach, радар игроков/сундуков.</span>
+      <span class="punish">Бан 3 дня → 7 → 30</span>
+    </div>
+    <div class="rule-item">
+      <span class="rule-id">1.2</span>
+      <span class="rule-text">Разрешены оптимизация, шейдеры, миникарта без радара, из читов Wild.</span>
+      <span class="punish ok">Разрешено</span>
+    </div>
+    <div class="rule-item">
+      <span class="rule-id">1.3</span>
+      <span class="rule-text">Скрывать читера или помогать ему — предупреждение, при повторе бан 1 день.</span>
+      <span class="punish">Предупреждение / бан 1 день</span>
+    </div>
+  </div>
+
+  <div class="rule-section">
+    <h3><span class="num">2</span> Гриф и кражи</h3>
+    <div class="rule-item">
+      <span class="rule-id">2.1</span>
+      <span class="rule-text">Гриф, взрывы, лава, кражи, убийство питомцев — разрешено.</span>
+      <span class="punish ok">Наказания нет</span>
+    </div>
+  </div>
+
+  <div class="rule-section">
+    <h3><span class="num">3</span> PvP</h3>
+    <div class="rule-item">
+      <span class="rule-id">3.1</span>
+      <span class="rule-text">PvP везде, без согласия, ловушки и спавн-килл — разрешено.</span>
+      <span class="punish ok">Наказания нет</span>
+    </div>
+    <div class="rule-item">
+      <span class="rule-id">3.2</span>
+      <span class="rule-text">PvP-читы — по п. 1.1.</span>
+      <span class="punish">Бан 3 дня → 7 → 30</span>
+    </div>
+  </div>
+
+  <div class="rule-section">
+    <h3><span class="num">4</span> Чат</h3>
+    <div class="rule-item">
+      <span class="rule-id">4.1</span>
+      <span class="rule-text">Запрещены только реальные угрозы, докс, DDoS, слив личных данных.</span>
+      <span class="punish">Мут 1 час → бан 1 день → пермбан</span>
+    </div>
+    <div class="rule-item">
+      <span class="rule-id">4.2</span>
+      <span class="rule-text">Спам и флуд — предупреждение, при игноре мут 10 минут.</span>
+      <span class="punish">Предупреждение / мут 10 мин</span>
+    </div>
+    <div class="rule-item">
+      <span class="rule-id">4.3</span>
+      <span class="rule-text">Массовая реклама в личку — мут 30 минут.</span>
+      <span class="punish">Мут 30 мин</span>
+    </div>
+  </div>
+
+  <div class="rule-section">
+    <h3><span class="num">5</span> Баги</h3>
+    <div class="rule-item">
+      <span class="rule-id">5.1</span>
+      <span class="rule-text">Запрещены дюпы, краш-баги, лаг-машины.</span>
+      <span class="punish">Откат + бан 3 дня → 7 → 30</span>
+    </div>
+    <div class="rule-item">
+      <span class="rule-id">5.2</span>
+      <span class="rule-text">Обычные баги — можно.</span>
+      <span class="punish ok">Разрешено</span>
+    </div>
+    <div class="rule-item">
+      <span class="rule-id">5.3</span>
+      <span class="rule-text">Скрыл краш-баг — предупреждение; использовал — по п. 5.1.</span>
+      <span class="punish">Предупреждение</span>
+    </div>
+  </div>
+
+  <div class="rule-section">
+    <h3><span class="num">6</span> Территория</h3>
+    <div class="rule-item">
+      <span class="rule-id">6.1</span>
+      <span class="rule-text">Строй где хочешь, чужие границы не защищены.</span>
+      <span class="punish ok">Разрешено</span>
+    </div>
+    <div class="rule-item">
+      <span class="rule-id">6.2</span>
+      <span class="rule-text">Спавн ломать любыми способами — нельзя.</span>
+      <span class="punish">Бан 14 дней по IP</span>
+    </div>
+  </div>
+
+  <div class="rule-section">
+    <h3><span class="num">7</span> Админы</h3>
+    <div class="rule-item">
+      <span class="rule-id">7.1</span>
+      <span class="rule-text">Вмешиваются только ради работы сервера, читов, докса, DDoS и угроз.</span>
+      <span class="punish ok">—</span>
+    </div>
+    <div class="rule-item">
+      <span class="rule-id">7.2</span>
+      <span class="rule-text">За докс, DDoS и реальные угрозы — перманентный бан.</span>
+      <span class="punish">Перманентный бан</span>
+    </div>
+    <div class="rule-item">
+      <span class="rule-id">7.3</span>
+      <span class="rule-text">Незнание правил не освобождает от ответственности.</span>
+      <span class="punish ok">—</span>
+    </div>
+  </div>
+
+  <div class="note">
+    📜 Актуальная версия правил всегда доступна в Discord-канале <b>#правила</b>.
+  </div>
+</section>
+
+<!-- ================= ЗАЯВКИ ================= -->
+<section class="tab" id="apply">
+  <div class="section-head">
+    <h2>Подать заявку</h2>
+    <p>Хочешь больше, чем просто играть? Мы открыты для активных ребят.
+    Все заявки рассматриваются в нашем Discord.</p>
+  </div>
+
+  <div class="grid c3">
+    <div class="card role-card reveal">
+      <span class="tagline">Команда сервера</span>
+      <h3>Высшие роли</h3>
+      <p>Роли выше игрока: модератор, администратор, разработчик, билдер.
+      Для тех, кто готов помогать серверу каждый день.</p>
+      <a class="btn primary" href="https://discord.gg/QS2g7reeF" target="_blank" rel="noopener">Подать заявку</a>
+    </div>
+
+    <div class="card role-card reveal">
+      <span class="tagline">Контент</span>
+      <h3>🎵 TikTok</h3>
+      <p>Снимаешь короткие видео о Minecraft? Получи роль медиа и поддержку сервера.</p>
+      <a class="btn" href="https://discord.gg/QS2g7reeF" target="_blank" rel="noopener">Подать заявку</a>
+    </div>
+
+    <div class="card role-card reveal">
+      <span class="tagline">Контент</span>
+      <h3>▶️ YouTube</h3>
+      <p>Ведёшь канал про выживание или обзоры? Мы будем рады видеть тебя в команде.</p>
+      <a class="btn" href="https://discord.gg/QS2g7reeF" target="_blank" rel="noopener">Подать заявку</a>
+    </div>
+
+    <div class="card role-card reveal">
+      <span class="tagline">Контент</span>
+      <h3>✈️ Telegram</h3>
+      <p>Ведёшь Telegram-канал? Расскажи об этом — обсудим сотрудничество.</p>
+      <a class="btn" href="https://discord.gg/QS2g7reeF" target="_blank" rel="noopener">Подать заявку</a>
+    </div>
+
+    <div class="card role-card reveal">
+      <span class="tagline">Контент</span>
+      <h3>🟣 Twitch</h3>
+      <p>Стримишь Minecraft? Заходи в Discord, договоримся о стрим-ивентах.</p>
+      <a class="btn" href="https://discord.gg/QS2g7reeF" target="_blank" rel="noopener">Подать заявку</a>
+    </div>
+
+    <div class="card role-card reveal">
+      <span class="tagline">Вопросы</span>
+      <h3>💬 Discord</h3>
+      <p>Не знаешь, куда податься? Напиши в Discord — подскажем и направим.</p>
+      <a class="btn" href="https://discord.gg/QS2g7reeF" target="_blank" rel="noopener">Открыть Discord</a>
+    </div>
+  </div>
+
+  <div class="note">
+    ⏳ Заявки рассматриваются в порядке очереди. Отвечаем всем, даже если получили отказ —
+    всегда можно попробовать снова позже.
+  </div>
+</section>
+
+<!-- ================= БЕЗОПАСНОСТЬ ================= -->
+<section class="tab" id="safety">
+  <div class="section-head">
+    <h2>Безопасность</h2>
+    <p>Прочитай внимательно — это убережёт твой аккаунт и твои деньги.</p>
+  </div>
+
+  <div class="list">
+    <div class="list-item danger">
+      <span class="mark">🔒</span>
+      <div><b>Никогда и никому не давай пароль от аккаунта</b>
+      <span>Ни друзьям, ни «администрации», ни тем, кто обещает роли или предметы.
+      Настоящая администрация NovaSMP <b>никогда</b> не спрашивает пароль.</span></div>
+    </div>
+    <div class="list-item danger">
+      <span class="mark">💸</span>
+      <div><b>Не переводи реальные деньги за предметы на сервере</b>
+      <span>Любые предложения «скинь 200 рублей — отдам алмазный сет» — это скам.
+      Мы не несём ответственности за такие сделки.</span></div>
+    </div>
+    <div class="list-item danger">
+      <span class="mark">🎣</span>
+      <div><b>Не переходи по подозрительным ссылкам</b>
+      <span>Фишинговые сайты маскируются под страницы Minecraft и Discord.
+      Проверяй адрес и не вводи данные на незнакомых сайтах.</span></div>
+    </div>
+    <div class="list-item ok">
+      <span class="mark">🛡️</span>
+      <div><b>Включи двухфакторную аутентификацию</b>
+      <span>2FA в Discord и на сайте Mojang — лучшая защита от взлома.</span></div>
+    </div>
+    <div class="list-item ok">
+      <span class="mark">👀</span>
+      <div><b>Сообщай о подозрительных людях</b>
+      <span>Если кто-то выдаёт себя за администрацию — сразу пиши в Discord.</span></div>
+    </div>
+  </div>
+
+  <div class="note">
+    ⚠️ Помни: всё, что происходит за пределами сервера и официального Discord NovaSMP —
+    твоя личная ответственность. Будь внимателен.
+  </div>
+</section>
+
+<!-- ================= СОЗДАТЕЛИ / КОНТАКТЫ ================= -->
+<section class="tab" id="contacts">
+  <div class="section-head">
+    <h2>Создатели сервера</h2>
+    <p>Люди, благодаря которым NovaSMP существует.</p>
+  </div>
+
+  <div class="creators-list">
+    <div class="creator-row">
+      <div class="avatar">T</div>
+      <div class="creator-info">
+        <div class="name">Timofey Efremov</div>
+        <div class="role">Создатель сервера</div>
+      </div>
+    </div>
+    <div class="creator-row">
+      <div class="avatar">Z</div>
+      <div class="creator-info">
+        <div class="name">z1ro</div>
+        <div class="role">Администратор</div>
+      </div>
+    </div>
+    <div class="creator-row">
+      <div class="avatar">R</div>
+      <div class="creator-info">
+        <div class="name">ragadca</div>
+        <div class="role">Администратор</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-head">
+    <h2>Как связаться с создателями</h2>
+    <p>Основная площадка для связи — Discord. Также мы есть в TikTok и Telegram.</p>
+  </div>
+
+  <div class="grid c3">
+    <div class="card reveal">
+      <span class="icon">💬</span>
+      <h3>Discord</h3>
+      <p>Главный канал связи: анонсы, заявки, поддержка и просто общение.</p>
+      <a class="btn primary" href="https://discord.gg/QS2g7reeF" target="_blank" rel="noopener" style="margin-top:14px">Перейти</a>
+    </div>
+    <div class="card reveal">
+      <span class="icon">🎵</span>
+      <h3>TikTok</h3>
+      <p>Хайлайты, приколы и клипы с сервера.</p>
+      <a class="btn" href="https://www.tiktok.com/@tim_sochi2020?_r=1&_t=ZS-9A3aG2nKIyL" target="_blank" rel="noopener" style="margin-top:14px">Открыть</a>
+    </div>
+    <div class="card reveal">
+      <span class="icon">✈️</span>
+      <h3>Telegram</h3>
+      <p>Официальный канал сервера с новостями и анонсами.</p>
+      <a class="btn" href="https://t.me/NovaSMPofficial" target="_blank" rel="noopener" style="margin-top:14px">Открыть</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <p><b>Сервер NovaSMP не относится к Mojang.</b><br>
+    Minecraft является товарным знаком Mojang Studios / Microsoft. Мы не аффилированы с ними.</p>
+    <div class="footer-links">
+      <a href="https://discord.gg/QS2g7reeF" target="_blank" rel="noopener">Discord</a>
+      <a href="https://www.tiktok.com/@tim_sochi2020?_r=1&_t=ZS-9A3aG2nKIyL" target="_blank" rel="noopener">TikTok</a>
+      <a href="https://t.me/NovaSMPofficial" target="_blank" rel="noopener">Telegram</a>
+    </div>
+  </div>
+</footer>
+
+<div id="toast"></div>
+
+<script>
+const tabs = document.querySelectorAll('.tab');
+const navBtns = document.querySelectorAll('#nav button');
+
+function show(id){
+  tabs.forEach(t => t.classList.toggle('active', t.id === id));
+  navBtns.forEach(b => b.classList.toggle('active', b.dataset.tab === id));
+  history.replaceState(null, '', '#' + id);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+navBtns.forEach(b => b.addEventListener('click', () => show(b.dataset.tab)));
+
+window.addEventListener('load', () => {
+  const hash = location.hash.replace('#','');
+  if (hash && document.getElementById(hash)) show(hash);
+});
+
+const themeBtn = document.getElementById('themeBtn');
+const savedTheme = localStorage.getItem('nova-theme') || 'dark';
+document.documentElement.setAttribute('data-theme', savedTheme);
+themeBtn.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
+
+themeBtn.addEventListener('click', () => {
+  const cur = document.documentElement.getAttribute('data-theme');
+  const next = cur === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  themeBtn.textContent = next === 'dark' ? '🌙' : '☀️';
+  localStorage.setItem('nova-theme', next);
+});
+
+let toastTimer;
+function toast(msg){
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
+}
+</script>
+</body>
+</html>
