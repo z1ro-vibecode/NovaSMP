@@ -356,6 +356,21 @@ footer{
 .footer-links a{color:var(--muted);text-decoration:none;font-size:.86rem;transition:color .4s var(--ease), transform .4s var(--ease)}
 .footer-links a:hover{color:var(--text);transform:translateY(-2px)}
 
+.footer-easteregg{
+  text-align:center;
+  font-size:.75rem;
+  color:var(--muted);
+  opacity:.35;
+  padding:0 0 18px;
+  letter-spacing:.3em;
+  cursor:help;
+  transition:opacity .5s var(--ease), color .5s var(--ease);
+}
+.footer-easteregg:hover{
+  opacity:1;
+  color:var(--accent-2);
+}
+
 #toast{
   position:fixed;left:50%;bottom:34px;transform:translate(-50%,160%);
   background:var(--bg-soft);color:var(--text);border:1px solid var(--border);
@@ -368,6 +383,43 @@ footer{
 
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease), transform .8s var(--ease)}
 .reveal.visible{opacity:1;transform:none}
+
+/* ===== ПАСХАЛКА ===== */
+#easterEgg{
+  position:fixed;inset:0;z-index:9999;
+  display:grid;place-items:center;
+  background:color-mix(in srgb, var(--bg) 75%, transparent);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  opacity:0;pointer-events:none;
+  transition:opacity .6s var(--ease);
+}
+#easterEgg.show{opacity:1;pointer-events:auto}
+#easterEgg .egg-card{
+  max-width:420px;padding:36px 32px;border-radius:24px;
+  background:var(--card);border:1px solid var(--border);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  box-shadow:var(--shadow);
+  text-align:center;
+  transform:scale(.85);opacity:0;
+  transition:transform .7s var(--ease-bounce), opacity .5s var(--ease);
+}
+#easterEgg.show .egg-card{transform:scale(1);opacity:1}
+#easterEgg .egg-icon{font-size:3rem;display:block;margin-bottom:14px;animation:pulse 1.6s infinite}
+#easterEgg h3{
+  font-family:var(--font-h);font-weight:900;font-size:1.6rem;margin-bottom:10px;
+  background:linear-gradient(100deg,var(--accent),var(--accent-2));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+#easterEgg p{font-size:.95rem;margin-bottom:20px}
+#easterEgg button{
+  font-family:var(--font-b);font-weight:600;font-size:.9rem;
+  padding:11px 22px;border-radius:12px;cursor:pointer;
+  background:linear-gradient(115deg,var(--accent),var(--accent-2));
+  color:#fff;border:none;
+  box-shadow:0 10px 28px var(--glow);
+  transition:transform .4s var(--ease-bounce);
+}
+#easterEgg button:hover{transform:translateY(-3px) scale(1.05)}
 
 @media (max-width:820px){
   .header-inner{flex-wrap:wrap;gap:12px;padding:12px 18px}
@@ -419,6 +471,7 @@ footer{
       <span class="badge">Версия 1.21.11</span>
       <span class="badge">Пиратка ✔</span>
       <span class="badge soon">Скоро открытие</span>
+      <span class="badge">#wildboost</span>
     </div>
     <h1>Добро пожаловать в <span class="grad">NovaSMP</span></h1>
     <p class="lead">
@@ -471,7 +524,7 @@ footer{
   <div class="note">
     💡 <b>Факт от разработчиков:</b> NovaSMP собирается полностью с нуля — от конфигов
     до этого сайта. Каждый блок в мире будет поставлен уже после открытия, так что ты
-    можешь стать частью самой первой эпохи сервера.
+    можешь стать частью самой первой эпохи сервера. <b>#wildboost</b>
   </div>
 </section>
 
@@ -842,10 +895,23 @@ footer{
       <a href="https://t.me/NovaSMPofficial" target="_blank" rel="noopener">Telegram</a>
     </div>
   </div>
+  <div class="footer-easteregg" title="🤫">· · · #wildboost · · ·</div>
 </footer>
 
 <button class="to-top" id="toTop" title="Наверх">↑</button>
 <div id="toast"></div>
+
+<!-- ===== ПАСХАЛКА ===== -->
+<div id="easterEgg">
+  <div class="egg-card">
+    <span class="egg-icon">👑</span>
+    <h3>Nomillix</h3>
+    <p>Ты нашёл секрет! <b style="color:var(--text)">Nomillix</b> — легенда NovaSMP.
+    Крутой человек, который всегда поддержит и поможет. Респект ему 🫡</p>
+    <button onclick="hideEgg()">Закрыть</button>
+    <div style="margin-top:16px;font-size:.8rem;letter-spacing:.15em;color:var(--accent-2);opacity:.8">#wildboost</div>
+  </div>
+</div>
 
 <script>
 /* ================== ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК ================== */
@@ -926,6 +992,43 @@ function onScroll(){
 }
 window.addEventListener('scroll', onScroll, { passive: true });
 toTop.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+
+/* ================== ПАСХАЛКА: Nomillix + #wildboost ================== */
+console.log(
+  '%c👑 Nomillix — легенда NovaSMP! Крутой человек, респект 🫡 %c#wildboost',
+  'background:linear-gradient(90deg,#8b5cf6,#22d3ee);color:#fff;' +
+  'padding:10px 18px;border-radius:10px 0 0 10px;font-size:14px;font-weight:600;',
+  'background:#0d0d1a;color:#22d3ee;padding:10px 18px;border-radius:0 10px 10px 0;' +
+  'font-size:14px;font-weight:700;border:1px solid #22d3ee;'
+);
+
+let eggBuffer = '';
+document.addEventListener('keydown', (e) => {
+  if (e.key.length === 1) {
+    eggBuffer += e.key.toLowerCase();
+    if (eggBuffer.length > 20) eggBuffer = eggBuffer.slice(-20);
+    if (eggBuffer.includes('nomillix')) {
+      showEgg();
+      eggBuffer = '';
+    }
+  }
+});
+
+function showEgg(){
+  document.getElementById('easterEgg').classList.add('show');
+  toast('👑 Секрет найден! Nomillix — крутой 🫡 #wildboost');
+}
+function hideEgg(){
+  document.getElementById('easterEgg').classList.remove('show');
+}
+document.getElementById('easterEgg').addEventListener('click', (e) => {
+  if (e.target.id === 'easterEgg') hideEgg();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') hideEgg();
+});
+
+document.querySelector('.footer-easteregg').addEventListener('click', showEgg);
 </script>
 </body>
 </html>
