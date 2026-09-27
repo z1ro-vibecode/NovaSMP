@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NovaSMP — Minecraft сервер 24/7 | Версия 1.21.11</title>
-<meta name="description" content="NovaSMP — уютный Minecraft сервер 1.21.11, работающий 24/7 на хостинге Millida. Поддержка пиратки. Открытие скоро!">
+<title>NovaSMP — Minecraft сервер 1.21.11 Fabric | 24/7</title>
+<meta name="description" content="NovaSMP — открытый Minecraft сервер 1.21.11 на Fabric с модом Simple Voice Chat. Работает 24/7 на хостинге Millida.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Unbounded:wght@500;700;900&display=swap" rel="stylesheet">
@@ -203,7 +203,6 @@ p{color:var(--muted);font-size:1rem}
   -webkit-background-clip:text;background-clip:text;color:transparent;
 }
 
-/* ===== HERO ===== */
 .hero-wrap{
   position:relative;
   min-height:calc(100vh - 72px);
@@ -235,7 +234,6 @@ p{color:var(--muted);font-size:1rem}
   font-size:1.15rem;max-width:620px;margin-bottom:32px;
 }
 
-/* Плавающие блоки */
 .floating-blocks{
   position:absolute;inset:0;
   pointer-events:none;
@@ -272,7 +270,6 @@ p{color:var(--muted);font-size:1rem}
   75%{transform:translate(-8px,-14px) rotate(4deg)}
 }
 
-/* Индикатор скролла */
 .scroll-indicator{
   position:absolute;
   bottom:28px;left:50%;
@@ -358,9 +355,9 @@ p{color:var(--muted);font-size:1rem}
   content:'';width:8px;height:8px;border-radius:50%;background:#22c55e;
   box-shadow:0 0 10px #22c55e;animation:pulse 1.8s infinite;
 }
-.badge.soon::before{
-  content:'';width:8px;height:8px;border-radius:50%;background:#f59e0b;
-  box-shadow:0 0 10px #f59e0b;animation:pulse 1.4s infinite;
+.badge.open::before{
+  content:'';width:8px;height:8px;border-radius:50%;background:#22c55e;
+  box-shadow:0 0 10px #22c55e;animation:pulse 1.4s infinite;
 }
 
 .steps{counter-reset:s;display:grid;gap:14px;margin-top:22px}
@@ -381,6 +378,11 @@ p{color:var(--muted);font-size:1rem}
 .step:hover::before{transform:scale(1.12) rotate(-6deg)}
 .step b{display:block;margin-bottom:3px;font-size:.98rem}
 .step span{color:var(--muted);font-size:.92rem}
+.step code{
+  background:color-mix(in srgb,var(--accent) 15%, transparent);
+  padding:2px 8px;border-radius:6px;color:var(--accent-2);
+  font-family:'Courier New',monospace;font-size:.9rem;
+}
 
 .rule-section{margin-top:26px}
 .rule-section h3{
@@ -466,7 +468,6 @@ p{color:var(--muted);font-size:1rem}
 }
 .creator-info .role{font-size:.88rem;color:var(--muted)}
 
-/* ===== FAQ ===== */
 .faq-list{display:grid;gap:12px;margin-top:26px}
 .faq-item{
   background:var(--card);border:1px solid var(--border);border-radius:16px;
@@ -687,25 +688,24 @@ footer{
     <div class="hero">
       <div class="badges">
         <span class="badge live">Работает 24/7</span>
+        <span class="badge open">Сервер открыт</span>
+        <span class="badge">Версия 1.21.11 · Fabric</span>
+        <span class="badge">Simple Voice Chat</span>
         <span class="badge">Хостинг Millida</span>
-        <span class="badge">Версия 1.21.11</span>
-        <span class="badge">Пиратка ✔</span>
-        <span class="badge soon">Скоро открытие</span>
         <span class="badge">#wildboost</span>
       </div>
 
       <h1 id="heroTitle">Добро пожаловать в NovaSMP</h1>
 
       <p class="lead">
-        Анархичный SMP-сервер в Minecraft, где ценятся свобода, движ и честная игра.
-        Никаких лишних ограничений, гриф и PvP разрешены, а сервер работает 24/7
-        на надёжном хостинге Millida.
+        Сервер <b>уже открыт</b>! Заходи на <b>1.21.11 Fabric</b> и играй с голосовым чатом
+        через мод <b>Simple Voice Chat</b>. Гриф, PvP и свобода — всё как мы любим.
       </p>
 
       <div class="btn-row">
         <a class="btn primary" href="https://discord.gg/QS2g7reeF" target="_blank" rel="noopener">💬 Наш Discord</a>
+        <button class="btn" onclick="show('join')">🚀 Как зайти</button>
         <button class="btn" onclick="show('apply')">📝 Подать заявку</button>
-        <button class="btn" onclick="show('opening')">🚀 Когда открытие?</button>
       </div>
     </div>
 
@@ -717,73 +717,76 @@ footer{
 
   <div class="grid c3">
     <div class="card reveal">
+      <span class="icon">🟢</span>
+      <h3>Сервер открыт</h3>
+      <p>Мы запустились! Заходи прямо сейчас, регистрируйся и начинай свою историю
+      на NovaSMP.</p>
+    </div>
+    <div class="card reveal">
       <span class="icon">⚡</span>
       <h3>Работает 24/7</h3>
       <p>Сервер не выключается: заходи в любое время дня и ночи, хоть в 4 утра.
       Аптайм держим на максимуме.</p>
     </div>
     <div class="card reveal">
-      <span class="icon">🛡️</span>
-      <h3>Хостинг Millida</h3>
-      <p>Мощное железо и защита от DDoS. Никаких просадок TPS даже при большом онлайне.</p>
+      <span class="icon">🎙️</span>
+      <h3>Simple Voice Chat</h3>
+      <p>Голосовой чат прямо в игре. Общайся с соседями по базе, договаривайся
+      о союзах и подслушивай врагов.</p>
     </div>
     <div class="card reveal">
-      <span class="icon">🎮</span>
-      <h3>Версия 1.21.11</h3>
-      <p>Актуальная версия Minecraft Java Edition. Поддержка лицензии и пиратки — заходят все.</p>
+      <span class="icon">🧵</span>
+      <h3>Fabric 1.21.11</h3>
+      <p>Сервер работает на Fabric. Ставь свои любимые моды, шейдеры и оптимизацию —
+      всё это разрешено.</p>
     </div>
     <div class="card reveal">
       <span class="icon">⚔️</span>
       <h3>Анархия и свобода</h3>
-      <p>Гриф, кражи, PvP без согласия, ловушки — всё разрешено. Правила только против читов,
-      дюпов, докса и краш-багов.</p>
+      <p>Гриф, кражи, PvP без согласия, ловушки — всё разрешено. Правила только против
+      читов, дюпов, докса и краш-багов.</p>
     </div>
     <div class="card reveal">
-      <span class="icon">🤝</span>
-      <h3>Своё комьюнити</h3>
-      <p>Discord с голосовыми каналами, TikTok с хайлайтами и Telegram-канал с новостями.</p>
-    </div>
-    <div class="card reveal">
-      <span class="icon">🚀</span>
-      <h3>Скоро открытие</h3>
-      <p>Ждём 15 человек в Discord — и запускаемся. Заходи, зови друзей и приближай открытие.</p>
+      <span class="icon">🛡️</span>
+      <h3>Хостинг Millida</h3>
+      <p>Мощное железо и защита от DDoS. Никаких просадок TPS даже при большом онлайне.</p>
     </div>
   </div>
 
   <div class="note">
-    💡 <b>Факт от разработчиков:</b> NovaSMP собирается полностью с нуля — от конфигов
-    до этого сайта. Каждый блок в мире будет поставлен уже после открытия, так что ты
-    можешь стать частью самой первой эпохи сервера. <b>#wildboost</b>
+    💡 <b>Совет новичку:</b> в первую очередь поставь <b>Simple Voice Chat</b> для Fabric
+    на версию 1.21.11 — без него ты не сможешь общаться голосом. Ссылка на мод есть
+    в разделе «Как зайти».
   </div>
 </section>
 
 <!-- ================= ОТКРЫТИЕ ================= -->
 <section class="tab" id="opening">
   <div class="section-head">
-    <h2>Открытие <span class="grad">NovaSMP</span></h2>
-    <p>Сервер откроется, как только в нашем Discord-сервере соберётся <b>15 участников</b>.
-    Заходи, приглашай друзей и приближай запуск!</p>
+    <h2>Сервер <span class="grad">уже открыт</span></h2>
+    <p>Мы запустились! Долгожданное открытие NovaSMP состоялось. Заходи на сервер
+    прямо сейчас — регистрация открыта, мир готов, приключения ждут.</p>
   </div>
 
   <div class="grid c2" style="margin-top:26px">
     <div class="card reveal">
-      <span class="icon">🎯</span>
-      <h3>Цель: 15 человек в Discord</h3>
-      <p>Мы хотим стартовать с активным и живым комьюнити. Как только счётчик дойдёт
-      до 15 — объявляем точную дату и открываемся.</p>
+      <span class="icon">🎉</span>
+      <h3>Открытие состоялось</h3>
+      <p>Сервер запущен и работает 24/7. Первые жители уже строят свои базы —
+      успей занять лучшие места рядом со спавном.</p>
       <a class="btn primary" href="https://discord.gg/QS2g7reeF" target="_blank" rel="noopener" style="margin-top:16px">Зайти в Discord</a>
     </div>
     <div class="card reveal">
-      <span class="icon">🎉</span>
-      <h3>Ивент на открытии</h3>
-      <p>В первый день — мини-ивент для всех, кто зайдёт. Первые жители получат
-      особый статус в Discord и приятный стартовый набор.</p>
+      <span class="icon">🎁</span>
+      <h3>Ивент в честь открытия</h3>
+      <p>В первые дни после открытия — особые ивенты и подарки для всех, кто зайдёт.
+      Первые жители получат особый статус в Discord.</p>
     </div>
   </div>
 
   <div class="note">
-    🔔 Хочешь зайти в числе первых? Загляни в Discord и включи уведомления от канала
-    с анонсами — там появится IP сразу после запуска.
+    🚀 <b>Что дальше?</b> Следи за анонсами в Discord — там мы публикуем ивенты,
+    обновления и новости сервера.
   </div>
 </section>
 
@@ -791,29 +794,36 @@ footer{
 <section class="tab" id="join">
   <div class="section-head">
     <h2>Как зайти на сервер</h2>
-    <p>Сервер ещё не открыт, но подготовиться можно уже сейчас. Вот что понадобится.</p>
+    <p>Всё просто: скачай Fabric, поставь один мод — и ты в игре. Пошагово ниже.</p>
   </div>
 
   <div class="steps">
     <div class="step">
-      <div><b>Minecraft Java Edition 1.21.11</b>
-      <span>Подойдёт как лицензия, так и пиратка. Версия сервера — строго 1.21.11.</span></div>
+      <div><b>Установи Minecraft 1.21.11</b>
+      <span>В лаунчере выбери версию <code>1.21.11</code>. Подойдёт как лицензия, так и пиратка.</span></div>
     </div>
     <div class="step">
-      <div><b>Зайди в наш Discord</b>
-      <span>Там публикуется IP-адрес, версия и все анонсы. Помоги собрать 15 человек для открытия!</span></div>
+      <div><b>Установи Fabric Loader</b>
+      <span>Зайди на <a href="https://fabricmc.net/use/installer/" target="_blank" rel="noopener" style="color:var(--accent-2)">fabricmc.net</a>,
+      скачай установщик, выбери версию <code>1.21.11</code> и нажми Install.</span></div>
     </div>
     <div class="step">
-      <div><b>Дождись анонса открытия</b>
-      <span>IP-адрес появится здесь и в Discord сразу после запуска сервера.</span></div>
+      <div><b>Скачай Simple Voice Chat</b>
+      <span>Скачай мод для Fabric 1.21.11 с <a href="https://modrinth.com/plugin/simple-voice-chat" target="_blank" rel="noopener" style="color:var(--accent-2)">Modrinth</a>
+      или CurseForge.</span></div>
     </div>
     <div class="step">
-      <div><b>Добавь сервер в игре</b>
+      <div><b>Положи мод в папку mods</b>
+      <span>Открой <code>%appdata%/.minecraft/mods</code> (Windows) или <code>~/.minecraft/mods</code> (Mac/Linux)
+      и скинь туда .jar файл мода.</span></div>
+    </div>
+    <div class="step">
+      <div><b>Запусти Fabric 1.21.11</b>
+      <span>В лаунчере выбери профиль <code>fabric-loader-1.21.11</code> и запусти игру.</span></div>
+    </div>
+    <div class="step">
+      <div><b>Добавь сервер и заходи</b>
       <span>«Сетевая игра» → «Добавить сервер» → вставь IP → «Готово» → подключайся.</span></div>
-    </div>
-    <div class="step">
-      <div><b>Прочитай правила</b>
-      <span>Перед игрой обязательно ознакомься с правилами — это займёт минуту.</span></div>
     </div>
   </div>
 
@@ -821,16 +831,23 @@ footer{
     <div class="card reveal">
       <span class="icon">🔌</span>
       <h3>IP-адрес</h3>
-      <p style="font-family:var(--font-h);font-size:1.3rem;color:var(--text);margin:10px 0">
-        скоро откроется</p>
-      <button class="btn" onclick="toast('IP появится сразу после открытия 🚀')">📋 Скопировать IP</button>
+      <p style="font-family:var(--font-h);font-size:1.15rem;color:var(--text);margin:10px 0">
+        указан в Discord</p>
+      <p style="font-size:.9rem;margin-bottom:14px">Мы выдаём актуальный IP в закреплённом сообщении Discord-канала <b>#анонсы</b>.</p>
+      <a class="btn primary" href="https://discord.gg/QS2g7reeF" target="_blank" rel="noopener">Получить IP</a>
     </div>
     <div class="card reveal">
-      <span class="icon">🧩</span>
-      <h3>Лицензия и пиратка</h3>
-      <p>Сервер доступен и с лицензии, и с пиратки. Версия клиента — 1.21.11.
-      Оптимизационные моды (Sodium, OptiFine) разрешены.</p>
+      <span class="icon">🎙️</span>
+      <h3>Simple Voice Chat</h3>
+      <p>Обязательный мод для голосового общения. Без него ты не услышишь других игроков.
+      Голос работает через проксимити — слышно только тех, кто рядом.</p>
+      <a class="btn" href="https://modrinth.com/plugin/simple-voice-chat" target="_blank" rel="noopener" style="margin-top:14px">Скачать мод</a>
     </div>
+  </div>
+
+  <div class="note">
+    ⚙️ <b>Важно:</b> сервер работает на <b>Fabric 1.21.11</b>. Моды вроде Sodium, Lithium,
+    Iris (шейдеры) и любые другие клиентские оптимизации — разрешены. Читы — запрещены.
   </div>
 </section>
 
@@ -1062,14 +1079,42 @@ footer{
   <div class="faq-list">
     <div class="faq-item">
       <button class="faq-q" onclick="toggleFaq(this)">
-        <span>🚀 Когда откроется сервер?</span>
+        <span>🚀 Сервер уже открыт?</span>
         <span class="faq-arrow">▾</span>
       </button>
       <div class="faq-a">
         <div class="faq-a-inner">
-          Как только в нашем Discord соберётся <b>15 участников</b>. Мы специально хотим стартовать
-          с активным комьюнити, чтобы на сервере сразу было живо. Заходи, зови друзей — и открытие
-          станет ближе.
+          <b>Да, сервер открыт!</b> Регистрация доступна, мир ждёт своих жителей.
+          IP-адрес можно получить в закреплённом сообщении Discord-канала <b>#анонсы</b>.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>🧵 Какая версия и загрузчик?</span>
+        <span class="faq-arrow">▾</span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          Сервер работает на <b>Minecraft 1.21.11</b> с загрузчиком <b>Fabric</b>.
+          Обязательно поставь Fabric Loader для 1.21.11, чтобы зайти на сервер.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>🎙️ Что такое Simple Voice Chat?</span>
+        <span class="faq-arrow">▾</span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          Это мод, который добавляет <b>голосовой чат прямо в игре</b>. Ты слышишь только
+          тех игроков, которые находятся рядом с тобой — это создаёт атмосферу настоящего
+          выживания. Скачай мод для Fabric 1.21.11 с
+          <a href="https://modrinth.com/plugin/simple-voice-chat" target="_blank" rel="noopener">Modrinth</a>
+          и положи в папку <code>mods</code>.
         </div>
       </div>
     </div>
@@ -1081,8 +1126,8 @@ footer{
       </button>
       <div class="faq-a">
         <div class="faq-a-inner">
-          Да, сервер доступен и с лицензии, и с пиратки. Версия клиента — <b>1.21.11</b>.
-          Никаких дополнительных модов для входа не нужно.
+          Да, сервер доступен и с лицензии, и с пиратки. Главное — версия <b>1.21.11</b>
+          и установленный Fabric.
         </div>
       </div>
     </div>
@@ -1308,14 +1353,12 @@ footer{
 </div>
 
 <script>
-/* ================== ПРЕЛОАДЕР ================== */
 window.addEventListener('load', () => {
   setTimeout(() => {
     document.getElementById('preloader').classList.add('hide');
   }, 1100);
 });
 
-/* ================== КАСТОМНЫЙ КУРСОР ================== */
 (function(){
   if(window.matchMedia('(hover:none)').matches) return;
   const dot = document.querySelector('.cursor-dot');
@@ -1341,7 +1384,6 @@ window.addEventListener('load', () => {
   });
 })();
 
-/* ================== АНИМАЦИЯ БУКВ В ЗАГОЛОВКЕ ================== */
 (function(){
   const title = document.getElementById('heroTitle');
   if(!title) return;
@@ -1363,7 +1405,6 @@ window.addEventListener('load', () => {
   }
 })();
 
-/* ================== ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК ================== */
 const tabs = document.querySelectorAll('.tab');
 const navBtns = document.querySelectorAll('#nav button');
 
@@ -1381,7 +1422,6 @@ window.addEventListener('load', () => {
   if (hash && document.getElementById(hash)) show(hash);
 });
 
-/* ================== ТЕМА ================== */
 const themeBtn = document.getElementById('themeBtn');
 const savedTheme = localStorage.getItem('nova-theme') || 'dark';
 document.documentElement.setAttribute('data-theme', savedTheme);
@@ -1395,7 +1435,6 @@ themeBtn.addEventListener('click', () => {
   localStorage.setItem('nova-theme', next);
 });
 
-/* ================== ТОСТ ================== */
 let toastTimer;
 function toast(msg){
   const el = document.getElementById('toast');
@@ -1405,7 +1444,6 @@ function toast(msg){
   toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
 }
 
-/* ================== ПОЯВЛЕНИЕ ПРИ СКРОЛЛЕ ================== */
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if(entry.isIntersecting){
@@ -1422,7 +1460,6 @@ function observeReveals(){
 }
 observeReveals();
 
-/* ================== ПРОГРЕСС + КНОПКА НАВЕРХ + ХЕДЕР ================== */
 const progress = document.getElementById('progress');
 const toTop = document.getElementById('toTop');
 const header = document.getElementById('header');
@@ -1442,7 +1479,6 @@ function onScroll(){
 window.addEventListener('scroll', onScroll, { passive: true });
 toTop.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
 
-/* ================== FAQ ================== */
 function toggleFaq(btn){
   const item = btn.parentElement;
   const answer = item.querySelector('.faq-a');
@@ -1464,7 +1500,6 @@ function toggleFaq(btn){
   }
 }
 
-/* ================== ПАСХАЛКА ================== */
 console.log(
   '%c👑 Nomillix — легенда NovaSMP! Крутой человек, респект 🫡 %c#wildboost',
   'background:linear-gradient(90deg,#8b5cf6,#22d3ee);color:#fff;' +
