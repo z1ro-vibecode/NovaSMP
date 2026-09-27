@@ -311,6 +311,74 @@ p{color:var(--muted);font-size:1rem}
 }
 .creator-info .role{font-size:.88rem;color:var(--muted)}
 
+/* ===== FAQ ===== */
+.faq-list{
+  display:grid;
+  gap:12px;
+  margin-top:26px;
+}
+.faq-item{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  overflow:hidden;
+  transition:background .4s var(--ease), border-color .4s var(--ease), box-shadow .4s var(--ease);
+}
+.faq-item:hover{
+  background:var(--card-hover);
+  border-color:color-mix(in srgb,var(--accent) 30%,var(--border));
+}
+.faq-item.open{
+  border-color:color-mix(in srgb,var(--accent) 50%,var(--border));
+  box-shadow:0 12px 30px var(--glow);
+}
+.faq-q{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding:18px 22px;
+  background:transparent;
+  border:none;
+  color:var(--text);
+  font-family:var(--font-b);
+  font-size:1rem;
+  font-weight:600;
+  text-align:left;
+  cursor:pointer;
+  transition:color .3s var(--ease);
+}
+.faq-q:hover{color:var(--accent-2)}
+.faq-arrow{
+  flex:none;
+  font-size:1.1rem;
+  color:var(--accent-2);
+  transition:transform .5s var(--ease-bounce);
+}
+.faq-item.open .faq-arrow{
+  transform:rotate(180deg);
+}
+.faq-a{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height .5s var(--ease);
+}
+.faq-a-inner{
+  padding:0 22px 20px;
+  color:var(--muted);
+  font-size:.95rem;
+  line-height:1.7;
+}
+.faq-a-inner b{color:var(--text)}
+.faq-a-inner a{
+  color:var(--accent-2);
+  text-decoration:none;
+  border-bottom:1px dashed currentColor;
+  transition:color .3s var(--ease);
+}
+.faq-a-inner a:hover{color:var(--accent)}
+
 .to-top{
   position:fixed;right:24px;bottom:24px;z-index:90;
   width:48px;height:48px;border-radius:14px;cursor:pointer;
@@ -508,6 +576,7 @@ footer{
       <button data-tab="rules">Правила</button>
       <button data-tab="apply">Заявки</button>
       <button data-tab="safety">Безопасность</button>
+      <button data-tab="faq">FAQ</button>
       <button data-tab="contacts">Создатели</button>
     </nav>
     <button class="theme-btn" id="themeBtn" title="Сменить тему">🌙</button>
@@ -877,6 +946,172 @@ footer{
   </div>
 </section>
 
+<!-- ================= FAQ ================= -->
+<section class="tab" id="faq">
+  <div class="section-head">
+    <h2>Частые вопросы</h2>
+    <p>Собрали самое популярное, что спрашивают новички. Если не нашёл ответ — заходи в Discord.</p>
+  </div>
+
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>🚀 Когда откроется сервер?</span>
+        <span class="faq-arrow">▾</span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          Как только в нашем Discord соберётся <b>15 участников</b>. Мы специально хотим стартовать
+          с активным комьюнити, чтобы на сервере сразу было живо. Заходи, зови друзей — и открытие
+          станет ближе.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>💻 Можно ли играть с пиратки?</span>
+        <span class="faq-arrow">▾</span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          Да, сервер доступен и с лицензии, и с пиратки. Версия клиента — <b>1.21.11</b>.
+          Никаких дополнительных модов для входа не нужно.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>🌍 Будет ли вайп?</span>
+        <span class="faq-arrow">▾</span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          Вайпов без причины у нас нет. Если когда-нибудь понадобится вайп (например, при переходе
+          на новую версию), мы предупредим заранее и объясним причину в Discord.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>💰 Нужно ли платить, чтобы играть?</span>
+        <span class="faq-arrow">▾</span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          Нет. Сервер полностью бесплатный, без доната за преимущества. Всё, что можно получить
+          в игре — только своими руками.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>⚔️ Что запрещено на сервере?</span>
+        <span class="faq-arrow">▾</span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          Гриф, кражи, PvP — <b>разрешены</b>. Запрещены только: читы (kill aura, fly, x-ray, autoclicker),
+          дюпы, краш-баги, докс, DDoS и реальные угрозы. Полный список — во вкладке «Правила».
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>🛠️ Как стать модератором или админом?</span>
+        <span class="faq-arrow">▾</span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          Подать заявку в Discord в канале <b>#заявки</b>. Мы смотрим на активность, адекватность
+          и желание помогать. Возраст и опыт — не главное, главное — ответственность.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>🎬 Я стример / тиктокер — что мне делать?</span>
+        <span class="faq-arrow">▾</span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          Заходи в Discord и подай заявку на медиа-роль (TikTok, YouTube, Twitch, Telegram).
+          Мы поддержим: дадим особую роль, поможем с ивентами и порекламируем твой контент.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>📬 Можно ли связаться с создателями?</span>
+        <span class="faq-arrow">▾</span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          Конечно! Мы <b>всегда стараемся быть на связи</b> и отвечаем всем.<br><br>
+          Способы связи:<br>
+          • <b>Discord</b> — <a href="https://discord.gg/QS2g7reeF" target="_blank" rel="noopener">наш сервер</a>,
+          самый быстрый вариант, можно написать в канал <b>#поддержка</b> или в личку админам.<br>
+          • <b>Telegram</b> — <a href="https://t.me/NovaSMPofficial" target="_blank" rel="noopener">канал NovaSMP</a>,
+          там можно написать в <b>директ канала</b> или оставить комментарий под постом.<br>
+          • <b>Telegram личка</b> — если в канале есть закреплённый контакт админа, пиши напрямую.<br><br>
+          Не стесняйся — мы рады помочь с любым вопросом, будь то баг, идея или предложение.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>🔒 Что делать, если взломали аккаунт?</span>
+        <span class="faq-arrow">▾</span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          Сразу пиши в Discord администрации. Мы поможем восстановить доступ, если аккаунт был
+          привязан к серверу. В будущем включи <b>2FA</b> — это защитит от 99% взломов.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>🌐 На каком хостинге работает сервер?</span>
+        <span class="faq-arrow">▾</span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          На <b>Millida</b> — это надёжный хостинг с мощным железом и защитой от DDoS.
+          Сервер работает <b>24/7</b>, без простоев и лагов.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>👑 Кто такой Nomillix?</span>
+        <span class="faq-arrow">▾</span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          Легенда NovaSMP. Крутой человек, который всегда поддержит и поможет.
+          Респект ему 🫡 <b>#wildboost</b>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    🤔 Не нашёл ответ? Загляни в Discord — там ответим быстрее всего.
+    <br><br>
+    <a class="btn primary" href="https://discord.gg/QS2g7reeF" target="_blank" rel="noopener">💬 Открыть Discord</a>
+  </div>
+</section>
+
 <!-- ================= СОЗДАТЕЛИ / КОНТАКТЫ ================= -->
 <section class="tab" id="contacts">
   <div class="section-head">
@@ -1046,6 +1281,29 @@ function onScroll(){
 }
 window.addEventListener('scroll', onScroll, { passive: true });
 toTop.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+
+/* ================== FAQ АККОРДЕОН ================== */
+function toggleFaq(btn){
+  const item = btn.parentElement;
+  const answer = item.querySelector('.faq-a');
+  const isOpen = item.classList.contains('open');
+
+  // Закрываем все остальные — если хочешь, чтобы можно было держать несколько открытыми, удали этот блок
+  document.querySelectorAll('.faq-item.open').forEach(other => {
+    if(other !== item){
+      other.classList.remove('open');
+      other.querySelector('.faq-a').style.maxHeight = null;
+    }
+  });
+
+  if(isOpen){
+    item.classList.remove('open');
+    answer.style.maxHeight = null;
+  } else {
+    item.classList.add('open');
+    answer.style.maxHeight = answer.scrollHeight + 'px';
+  }
+}
 
 /* ================== ПАСХАЛКА: Nomillix + #wildboost ================== */
 console.log(
