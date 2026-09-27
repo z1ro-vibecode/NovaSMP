@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NovaSMP — Minecraft сервер 1.21.11 Fabric | 24/7</title>
-<meta name="description" content="NovaSMP — открытый Minecraft сервер 1.21.11 на Fabric с модом Simple Voice Chat. Работает 24/7 на хостинге Millida.">
+<meta name="description" content="NovaSMP — открытый Minecraft сервер 1.21.11 на Fabric с модом Simple Voice Chat. IP: timatima.msk.millida.host. Работает 24/7.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Unbounded:wght@500;700;900&display=swap" rel="stylesheet">
@@ -57,7 +57,6 @@ body{
 }
 a,button{cursor:none}
 
-/* ===== ПРЕЛОАДЕР ===== */
 #preloader{
   position:fixed;inset:0;z-index:10000;
   display:grid;place-items:center;
@@ -87,7 +86,6 @@ a,button{cursor:none}
 }
 @keyframes load{to{width:100%}}
 
-/* ===== КАСТОМНЫЙ КУРСОР ===== */
 .cursor-dot,
 .cursor-ring{
   position:fixed;top:0;left:0;
@@ -231,7 +229,44 @@ p{color:var(--muted);font-size:1rem}
   to{opacity:1;transform:translateY(0) rotateX(0)}
 }
 .hero p.lead{
-  font-size:1.15rem;max-width:620px;margin-bottom:32px;
+  font-size:1.15rem;max-width:620px;margin-bottom:26px;
+}
+
+/* IP-блок в hero */
+.ip-hero{
+  display:inline-flex;align-items:center;gap:14px;
+  padding:14px 20px;
+  background:var(--card);
+  border:1px solid color-mix(in srgb,var(--accent) 40%, var(--border));
+  border-radius:16px;
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  margin-bottom:26px;
+  cursor:pointer;
+  transition:transform .5s var(--ease-bounce), background .4s var(--ease), box-shadow .4s var(--ease), border-color .4s var(--ease);
+  max-width:100%;
+}
+.ip-hero:hover{
+  transform:translateY(-3px);
+  background:var(--card-hover);
+  box-shadow:0 12px 30px var(--glow);
+}
+.ip-hero .ip-label{
+  font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--accent-2);font-weight:700;
+}
+.ip-hero .ip-value{
+  font-family:var(--font-h);font-weight:700;
+  font-size:clamp(.95rem,2.4vw,1.15rem);
+  color:var(--text);
+  word-break:break-all;
+}
+.ip-hero .ip-copy{
+  flex:none;
+  font-size:.82rem;font-weight:600;
+  padding:6px 12px;border-radius:8px;
+  background:linear-gradient(115deg,var(--accent),var(--accent-2));
+  color:#fff;
 }
 
 .floating-blocks{
@@ -383,6 +418,8 @@ p{color:var(--muted);font-size:1rem}
   padding:2px 8px;border-radius:6px;color:var(--accent-2);
   font-family:'Courier New',monospace;font-size:.9rem;
 }
+.step a{color:var(--accent-2);text-decoration:none}
+.step a:hover{text-decoration:underline}
 
 .rule-section{margin-top:26px}
 .rule-section h3{
@@ -493,6 +530,11 @@ p{color:var(--muted);font-size:1rem}
 .faq-a-inner b{color:var(--text)}
 .faq-a-inner a{color:var(--accent-2);text-decoration:none;border-bottom:1px dashed currentColor;transition:color .3s var(--ease)}
 .faq-a-inner a:hover{color:var(--accent)}
+.faq-a-inner code{
+  background:color-mix(in srgb,var(--accent) 15%, transparent);
+  padding:2px 8px;border-radius:6px;color:var(--accent-2);
+  font-family:'Courier New',monospace;font-size:.9rem;
+}
 
 .to-top{
   position:fixed;right:24px;bottom:24px;z-index:90;
@@ -624,6 +666,7 @@ footer{
   .hero-wrap{min-height:auto;padding:20px 0 40px}
   .fblock{display:none}
   .scroll-indicator{display:none}
+  .ip-hero{flex-direction:column;align-items:flex-start;gap:10px}
 }
 @media (prefers-reduced-motion: reduce){
   *{animation:none!important;transition:none!important}
@@ -702,6 +745,14 @@ footer{
         через мод <b>Simple Voice Chat</b>. Гриф, PvP и свобода — всё как мы любим.
       </p>
 
+      <div class="ip-hero" onclick="copyIP()" title="Нажми, чтобы скопировать">
+        <div>
+          <div class="ip-label">IP-адрес сервера</div>
+          <div class="ip-value">timatima.msk.millida.host</div>
+        </div>
+        <span class="ip-copy">📋 Копировать</span>
+      </div>
+
       <div class="btn-row">
         <a class="btn primary" href="https://discord.gg/QS2g7reeF" target="_blank" rel="noopener">💬 Наш Discord</a>
         <button class="btn" onclick="show('join')">🚀 Как зайти</button>
@@ -719,8 +770,8 @@ footer{
     <div class="card reveal">
       <span class="icon">🟢</span>
       <h3>Сервер открыт</h3>
-      <p>Мы запустились! Заходи прямо сейчас, регистрируйся и начинай свою историю
-      на NovaSMP.</p>
+      <p>Мы запустились! Заходи прямо сейчас на <b>timatima.msk.millida.host</b>, регистрируйся
+      и начинай свою историю на NovaSMP.</p>
     </div>
     <div class="card reveal">
       <span class="icon">⚡</span>
@@ -797,19 +848,36 @@ footer{
     <p>Всё просто: скачай Fabric, поставь один мод — и ты в игре. Пошагово ниже.</p>
   </div>
 
-  <div class="steps">
+  <div class="grid c2" style="margin-top:26px">
+    <div class="card reveal" style="border-color:color-mix(in srgb,var(--accent) 40%,var(--border))">
+      <span class="icon">🔌</span>
+      <h3>IP-адрес сервера</h3>
+      <p style="font-family:var(--font-h);font-size:1.15rem;color:var(--text);margin:10px 0;word-break:break-all">
+        timatima.msk.millida.host</p>
+      <button class="btn primary" onclick="copyIP()">📋 Скопировать IP</button>
+    </div>
+    <div class="card reveal">
+      <span class="icon">🎙️</span>
+      <h3>Simple Voice Chat</h3>
+      <p>Обязательный мод для голосового общения. Без него ты не услышишь других игроков.
+      Голос работает через проксимити — слышно только тех, кто рядом.</p>
+      <a class="btn" href="https://modrinth.com/plugin/simple-voice-chat" target="_blank" rel="noopener" style="margin-top:14px">Скачать мод</a>
+    </div>
+  </div>
+
+  <div class="steps" style="margin-top:26px">
     <div class="step">
       <div><b>Установи Minecraft 1.21.11</b>
       <span>В лаунчере выбери версию <code>1.21.11</code>. Подойдёт как лицензия, так и пиратка.</span></div>
     </div>
     <div class="step">
       <div><b>Установи Fabric Loader</b>
-      <span>Зайди на <a href="https://fabricmc.net/use/installer/" target="_blank" rel="noopener" style="color:var(--accent-2)">fabricmc.net</a>,
+      <span>Зайди на <a href="https://fabricmc.net/use/installer/" target="_blank" rel="noopener">fabricmc.net</a>,
       скачай установщик, выбери версию <code>1.21.11</code> и нажми Install.</span></div>
     </div>
     <div class="step">
       <div><b>Скачай Simple Voice Chat</b>
-      <span>Скачай мод для Fabric 1.21.11 с <a href="https://modrinth.com/plugin/simple-voice-chat" target="_blank" rel="noopener" style="color:var(--accent-2)">Modrinth</a>
+      <span>Скачай мод для Fabric 1.21.11 с <a href="https://modrinth.com/plugin/simple-voice-chat" target="_blank" rel="noopener">Modrinth</a>
       или CurseForge.</span></div>
     </div>
     <div class="step">
@@ -823,25 +891,7 @@ footer{
     </div>
     <div class="step">
       <div><b>Добавь сервер и заходи</b>
-      <span>«Сетевая игра» → «Добавить сервер» → вставь IP → «Готово» → подключайся.</span></div>
-    </div>
-  </div>
-
-  <div class="grid c2" style="margin-top:30px">
-    <div class="card reveal">
-      <span class="icon">🔌</span>
-      <h3>IP-адрес</h3>
-      <p style="font-family:var(--font-h);font-size:1.15rem;color:var(--text);margin:10px 0">
-        указан в Discord</p>
-      <p style="font-size:.9rem;margin-bottom:14px">Мы выдаём актуальный IP в закреплённом сообщении Discord-канала <b>#анонсы</b>.</p>
-      <a class="btn primary" href="https://discord.gg/QS2g7reeF" target="_blank" rel="noopener">Получить IP</a>
-    </div>
-    <div class="card reveal">
-      <span class="icon">🎙️</span>
-      <h3>Simple Voice Chat</h3>
-      <p>Обязательный мод для голосового общения. Без него ты не услышишь других игроков.
-      Голос работает через проксимити — слышно только тех, кто рядом.</p>
-      <a class="btn" href="https://modrinth.com/plugin/simple-voice-chat" target="_blank" rel="noopener" style="margin-top:14px">Скачать мод</a>
+      <span>«Сетевая игра» → «Добавить сервер» → вставь <code>timatima.msk.millida.host</code> → «Готово» → подключайся.</span></div>
     </div>
   </div>
 
@@ -1079,13 +1129,26 @@ footer{
   <div class="faq-list">
     <div class="faq-item">
       <button class="faq-q" onclick="toggleFaq(this)">
+        <span>🚀 Какой IP у сервера?</span>
+        <span class="faq-arrow">▾</span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          IP-адрес сервера: <code>timatima.msk.millida.host</code>. Вставь его в поле
+          «Адрес сервера» в игре и подключайся.
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
         <span>🚀 Сервер уже открыт?</span>
         <span class="faq-arrow">▾</span>
       </button>
       <div class="faq-a">
         <div class="faq-a-inner">
           <b>Да, сервер открыт!</b> Регистрация доступна, мир ждёт своих жителей.
-          IP-адрес можно получить в закреплённом сообщении Discord-канала <b>#анонсы</b>.
+          IP — <code>timatima.msk.millida.host</code>.
         </div>
       </div>
     </div>
@@ -1378,7 +1441,7 @@ window.addEventListener('load', () => {
   }
   loop();
 
-  document.querySelectorAll('a, button, .card, .faq-q, .creator-row').forEach(el => {
+  document.querySelectorAll('a, button, .card, .faq-q, .creator-row, .ip-hero').forEach(el => {
     el.addEventListener('mouseenter', () => ring.classList.add('hover'));
     el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
   });
@@ -1442,6 +1505,25 @@ function toast(msg){
   el.classList.add('show');
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
+}
+
+/* ================== КОПИРОВАНИЕ IP ================== */
+const SERVER_IP = 'timatima.msk.millida.host';
+
+function copyIP(){
+  navigator.clipboard.writeText(SERVER_IP).then(
+    () => toast('✅ IP скопирован: ' + SERVER_IP),
+    () => {
+      // фолбэк, если clipboard недоступен
+      const tmp = document.createElement('textarea');
+      tmp.value = SERVER_IP;
+      document.body.appendChild(tmp);
+      tmp.select();
+      try { document.execCommand('copy'); toast('✅ IP скопирован: ' + SERVER_IP); }
+      catch(e){ toast('IP: ' + SERVER_IP); }
+      document.body.removeChild(tmp);
+    }
+  );
 }
 
 const revealObserver = new IntersectionObserver((entries) => {
