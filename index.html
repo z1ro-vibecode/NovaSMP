@@ -53,7 +53,64 @@ body{
   overflow-x:hidden;
   transition:background .7s var(--ease), color .7s var(--ease);
   -webkit-font-smoothing:antialiased;
+  cursor:none;
 }
+a,button{cursor:none}
+
+/* ===== ПРЕЛОАДЕР ===== */
+#preloader{
+  position:fixed;inset:0;z-index:10000;
+  display:grid;place-items:center;
+  background:var(--bg);
+  transition:opacity .7s var(--ease), visibility .7s var(--ease);
+}
+#preloader.hide{opacity:0;visibility:hidden}
+#preloader .pre-inner{
+  display:flex;flex-direction:column;align-items:center;gap:22px;
+}
+#preloader .pre-logo{
+  font-family:var(--font-h);font-weight:900;font-size:2.2rem;letter-spacing:-.02em;
+  background:linear-gradient(100deg,var(--accent),var(--accent-2),var(--accent));
+  background-size:220% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shine 3s linear infinite;
+}
+#preloader .pre-bar{
+  width:180px;height:3px;border-radius:99px;
+  background:var(--border);overflow:hidden;
+}
+#preloader .pre-bar span{
+  display:block;height:100%;width:0%;
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  box-shadow:0 0 12px var(--glow);
+  animation:load 1s var(--ease) forwards;
+}
+@keyframes load{to{width:100%}}
+
+/* ===== КАСТОМНЫЙ КУРСОР ===== */
+.cursor-dot,
+.cursor-ring{
+  position:fixed;top:0;left:0;
+  pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  mix-blend-mode:difference;
+}
+.cursor-dot{
+  width:6px;height:6px;background:var(--accent-2);
+}
+.cursor-ring{
+  width:34px;height:34px;
+  border:1.5px solid var(--accent);
+  background:radial-gradient(circle,var(--glow),transparent 70%);
+  transition:width .3s var(--ease), height .3s var(--ease), border-color .3s var(--ease);
+}
+.cursor-ring.hover{
+  width:56px;height:56px;
+  border-color:var(--accent-2);
+}
+@media (hover:none){.cursor-dot,.cursor-ring{display:none} body{cursor:auto} a,button{cursor:pointer}}
+
 .bg-blobs{position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none}
 .blob{position:absolute;border-radius:50%;filter:blur(100px);opacity:.5;animation:float 22s ease-in-out infinite;}
 .blob.b1{width:560px;height:560px;background:var(--accent);top:-200px;left:-140px;}
@@ -146,24 +203,105 @@ p{color:var(--muted);font-size:1rem}
   -webkit-background-clip:text;background-clip:text;color:transparent;
 }
 
-.hero{padding:34px 0 52px;max-width:760px}
-.hero p.lead{font-size:1.12rem;max-width:600px;margin-bottom:28px}
-.badges{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px}
-.badge{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:7px 15px;border-radius:999px;font-size:.83rem;font-weight:600;
-  background:var(--card);border:1px solid var(--border);color:var(--text);
-  backdrop-filter:blur(8px);
-  transition:transform .5s var(--ease-bounce), background .4s var(--ease), border-color .4s var(--ease);
+/* ===== HERO ===== */
+.hero-wrap{
+  position:relative;
+  min-height:calc(100vh - 72px);
+  display:flex;align-items:center;
+  padding:40px 0 60px;
+  overflow:hidden;
 }
-.badge:hover{transform:translateY(-3px) scale(1.03);background:var(--card-hover);border-color:color-mix(in srgb,var(--accent) 40%,var(--border))}
-.badge.live::before{
-  content:'';width:8px;height:8px;border-radius:50%;background:#22c55e;
-  box-shadow:0 0 10px #22c55e;animation:pulse 1.8s infinite;
+.hero{
+  position:relative;z-index:2;
+  max-width:820px;
+  padding:20px 0;
 }
-.badge.soon::before{
-  content:'';width:8px;height:8px;border-radius:50%;background:#f59e0b;
-  box-shadow:0 0 10px #f59e0b;animation:pulse 1.4s infinite;
+.hero .badges{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:26px}
+.hero h1{
+  font-size:clamp(2.4rem,7vw,5rem);
+  line-height:1.02;
+  margin-bottom:22px;
+}
+.hero h1 .letter{
+  display:inline-block;
+  opacity:0;
+  transform:translateY(40px) rotateX(-45deg);
+  animation:letterIn .7s var(--ease-bounce) forwards;
+}
+@keyframes letterIn{
+  to{opacity:1;transform:translateY(0) rotateX(0)}
+}
+.hero p.lead{
+  font-size:1.15rem;max-width:620px;margin-bottom:32px;
+}
+
+/* Плавающие блоки */
+.floating-blocks{
+  position:absolute;inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:1;
+}
+.fblock{
+  position:absolute;
+  width:56px;height:56px;
+  border-radius:14px;
+  background:linear-gradient(135deg, color-mix(in srgb,var(--accent) 45%, transparent), color-mix(in srgb,var(--accent-2) 35%, transparent));
+  border:1px solid color-mix(in srgb,var(--accent) 50%, transparent);
+  box-shadow:0 12px 40px var(--glow);
+  backdrop-filter:blur(6px);
+  opacity:.7;
+  animation:blockFloat 14s ease-in-out infinite;
+}
+.fblock::after{
+  content:'';position:absolute;inset:8px;
+  border-radius:8px;
+  background:linear-gradient(135deg, color-mix(in srgb,var(--accent-2) 50%, transparent), transparent);
+  opacity:.5;
+}
+.fblock.f1{ top:8%;  right:8%;  width:64px;height:64px; animation-delay:-2s; animation-duration:16s; }
+.fblock.f2{ top:26%; right:22%; width:38px;height:38px; animation-delay:-5s; animation-duration:13s; }
+.fblock.f3{ top:58%; right:12%; width:52px;height:52px; animation-delay:-8s; animation-duration:18s; }
+.fblock.f4{ top:74%; right:34%; width:32px;height:32px; animation-delay:-3s; animation-duration:12s; }
+.fblock.f5{ top:16%; right:44%; width:26px;height:26px; animation-delay:-11s; animation-duration:15s; opacity:.5; }
+.fblock.f6{ top:82%; right:6%;  width:44px;height:44px; animation-delay:-6s; animation-duration:17s; opacity:.55; }
+@keyframes blockFloat{
+  0%,100%{transform:translate(0,0) rotate(0deg)}
+  25%{transform:translate(-16px,-22px) rotate(8deg)}
+  50%{transform:translate(12px,-38px) rotate(-6deg)}
+  75%{transform:translate(-8px,-14px) rotate(4deg)}
+}
+
+/* Индикатор скролла */
+.scroll-indicator{
+  position:absolute;
+  bottom:28px;left:50%;
+  transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  color:var(--muted);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
+  z-index:2;
+  animation:scrollBob 2.4s ease-in-out infinite;
+}
+.scroll-indicator .mouse{
+  width:22px;height:36px;border:2px solid var(--border);border-radius:12px;
+  position:relative;
+}
+.scroll-indicator .mouse::after{
+  content:'';position:absolute;top:6px;left:50%;
+  width:3px;height:6px;border-radius:2px;
+  background:var(--accent-2);
+  transform:translateX(-50%);
+  animation:wheelMove 1.6s ease-in-out infinite;
+}
+@keyframes wheelMove{
+  0%{opacity:0;transform:translate(-50%,0)}
+  30%{opacity:1}
+  70%{opacity:1}
+  100%{opacity:0;transform:translate(-50%,10px)}
+}
+@keyframes scrollBob{
+  0%,100%{transform:translate(-50%,0)}
+  50%{transform:translate(-50%,6px)}
 }
 
 .btn{
@@ -207,6 +345,23 @@ p{color:var(--muted);font-size:1rem}
 .card .icon{font-size:1.7rem;margin-bottom:12px;display:block;transition:transform .5s var(--ease-bounce)}
 .card:hover .icon{transform:scale(1.15) rotate(-5deg)}
 .card p{font-size:.94rem}
+
+.badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:7px 15px;border-radius:999px;font-size:.83rem;font-weight:600;
+  background:var(--card);border:1px solid var(--border);color:var(--text);
+  backdrop-filter:blur(8px);
+  transition:transform .5s var(--ease-bounce), background .4s var(--ease), border-color .4s var(--ease);
+}
+.badge:hover{transform:translateY(-3px) scale(1.03);background:var(--card-hover);border-color:color-mix(in srgb,var(--accent) 40%,var(--border))}
+.badge.live::before{
+  content:'';width:8px;height:8px;border-radius:50%;background:#22c55e;
+  box-shadow:0 0 10px #22c55e;animation:pulse 1.8s infinite;
+}
+.badge.soon::before{
+  content:'';width:8px;height:8px;border-radius:50%;background:#f59e0b;
+  box-shadow:0 0 10px #f59e0b;animation:pulse 1.4s infinite;
+}
 
 .steps{counter-reset:s;display:grid;gap:14px;margin-top:22px}
 .step{
@@ -465,13 +620,27 @@ footer{
   .corner-tag{font-size:.65rem;padding:7px 12px;letter-spacing:.08em}
   .corner-tag.nomillix{top:auto;bottom:74px;left:12px}
   .corner-tag.wildboost{top:auto;bottom:74px;right:12px}
+  .hero-wrap{min-height:auto;padding:20px 0 40px}
+  .fblock{display:none}
+  .scroll-indicator{display:none}
 }
 @media (prefers-reduced-motion: reduce){
   *{animation:none!important;transition:none!important}
+  .hero h1 .letter{opacity:1;transform:none}
 }
 </style>
 </head>
 <body>
+
+<div id="preloader">
+  <div class="pre-inner">
+    <div class="pre-logo">NovaSMP</div>
+    <div class="pre-bar"><span></span></div>
+  </div>
+</div>
+
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
 
 <div class="scroll-progress" id="progress"></div>
 
@@ -505,25 +674,44 @@ footer{
 
 <!-- ================= ГЛАВНАЯ ================= -->
 <section class="tab active" id="home">
-  <div class="hero">
-    <div class="badges">
-      <span class="badge live">Работает 24/7</span>
-      <span class="badge">Хостинг Millida</span>
-      <span class="badge">Версия 1.21.11</span>
-      <span class="badge">Пиратка ✔</span>
-      <span class="badge soon">Скоро открытие</span>
-      <span class="badge">#wildboost</span>
+  <div class="hero-wrap">
+    <div class="floating-blocks">
+      <div class="fblock f1"></div>
+      <div class="fblock f2"></div>
+      <div class="fblock f3"></div>
+      <div class="fblock f4"></div>
+      <div class="fblock f5"></div>
+      <div class="fblock f6"></div>
     </div>
-    <h1>Добро пожаловать в <span class="grad">NovaSMP</span></h1>
-    <p class="lead">
-      Анархичный SMP-сервер в Minecraft, где ценятся свобода, движ и честная игра.
-      Никаких лишних ограничений, гриф и PvP разрешены, а сервер работает 24/7
-      на надёжном хостинге Millida.
-    </p>
-    <div class="btn-row">
-      <a class="btn primary" href="https://discord.gg/QS2g7reeF" target="_blank" rel="noopener">💬 Наш Discord</a>
-      <button class="btn" onclick="show('apply')">📝 Подать заявку</button>
-      <button class="btn" onclick="show('opening')">🚀 Когда открытие?</button>
+
+    <div class="hero">
+      <div class="badges">
+        <span class="badge live">Работает 24/7</span>
+        <span class="badge">Хостинг Millida</span>
+        <span class="badge">Версия 1.21.11</span>
+        <span class="badge">Пиратка ✔</span>
+        <span class="badge soon">Скоро открытие</span>
+        <span class="badge">#wildboost</span>
+      </div>
+
+      <h1 id="heroTitle">Добро пожаловать в NovaSMP</h1>
+
+      <p class="lead">
+        Анархичный SMP-сервер в Minecraft, где ценятся свобода, движ и честная игра.
+        Никаких лишних ограничений, гриф и PvP разрешены, а сервер работает 24/7
+        на надёжном хостинге Millida.
+      </p>
+
+      <div class="btn-row">
+        <a class="btn primary" href="https://discord.gg/QS2g7reeF" target="_blank" rel="noopener">💬 Наш Discord</a>
+        <button class="btn" onclick="show('apply')">📝 Подать заявку</button>
+        <button class="btn" onclick="show('opening')">🚀 Когда открытие?</button>
+      </div>
+    </div>
+
+    <div class="scroll-indicator">
+      <div class="mouse"></div>
+      <span>Скролл</span>
     </div>
   </div>
 
@@ -1120,6 +1308,61 @@ footer{
 </div>
 
 <script>
+/* ================== ПРЕЛОАДЕР ================== */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('preloader').classList.add('hide');
+  }, 1100);
+});
+
+/* ================== КАСТОМНЫЙ КУРСОР ================== */
+(function(){
+  if(window.matchMedia('(hover:none)').matches) return;
+  const dot = document.querySelector('.cursor-dot');
+  const ring = document.querySelector('.cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', (e) => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%,-50%)`;
+  });
+
+  function loop(){
+    rx += (mx - rx) * 0.18;
+    ry += (my - ry) * 0.18;
+    ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%,-50%)`;
+    requestAnimationFrame(loop);
+  }
+  loop();
+
+  document.querySelectorAll('a, button, .card, .faq-q, .creator-row').forEach(el => {
+    el.addEventListener('mouseenter', () => ring.classList.add('hover'));
+    el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
+  });
+})();
+
+/* ================== АНИМАЦИЯ БУКВ В ЗАГОЛОВКЕ ================== */
+(function(){
+  const title = document.getElementById('heroTitle');
+  if(!title) return;
+  const text = title.textContent;
+  title.textContent = '';
+  [...text].forEach((ch, i) => {
+    const span = document.createElement('span');
+    span.className = 'letter';
+    span.textContent = ch === ' ' ? '\u00A0' : ch;
+    span.style.animationDelay = (0.03 * i) + 's';
+    title.appendChild(span);
+  });
+  const letters = title.querySelectorAll('.letter');
+  const start = text.indexOf('NovaSMP');
+  if(start > -1){
+    for(let i = start; i < start + 'NovaSMP'.length; i++){
+      if(letters[i]) letters[i].classList.add('grad');
+    }
+  }
+})();
+
 /* ================== ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК ================== */
 const tabs = document.querySelectorAll('.tab');
 const navBtns = document.querySelectorAll('#nav button');
