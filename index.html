@@ -232,7 +232,6 @@ p{color:var(--muted);font-size:1rem}
   font-size:1.15rem;max-width:620px;margin-bottom:26px;
 }
 
-/* IP-блок в hero */
 .ip-hero{
   display:inline-flex;align-items:center;gap:14px;
   padding:14px 20px;
@@ -505,6 +504,58 @@ p{color:var(--muted);font-size:1rem}
 }
 .creator-info .role{font-size:.88rem;color:var(--muted)}
 
+/* ===== ПИАР ===== */
+.promo-intro{
+  max-width:720px;margin-bottom:26px;
+}
+.promo-text-box{
+  position:relative;
+  background:var(--card);
+  border:1px solid color-mix(in srgb,var(--accent) 35%, var(--border));
+  border-radius:20px;
+  padding:26px 28px;
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  transition:background .5s var(--ease), border-color .5s var(--ease), box-shadow .5s var(--ease);
+  margin-bottom:20px;
+}
+.promo-text-box:hover{
+  border-color:color-mix(in srgb,var(--accent) 55%, var(--border));
+  box-shadow:0 12px 32px var(--glow);
+}
+.promo-text-box::before{
+  content:'📢 Готовый текст для пиара';
+  position:absolute;top:-12px;left:22px;
+  font-family:var(--font-h);font-weight:700;font-size:.72rem;
+  letter-spacing:.12em;text-transform:uppercase;
+  padding:5px 12px;border-radius:999px;
+  background:linear-gradient(115deg,var(--accent),var(--accent-2));
+  color:#fff;
+  box-shadow:0 6px 18px var(--glow);
+}
+.promo-text{
+  font-family:var(--font-b);
+  font-size:.98rem;line-height:1.75;
+  color:var(--text);
+  white-space:pre-wrap;
+  word-wrap:break-word;
+  user-select:all;
+}
+.promo-text a{
+  color:var(--accent-2);
+  word-break:break-all;
+}
+
+.copy-btn-wrap{
+  display:flex;flex-wrap:wrap;gap:12px;align-items:center;
+  margin-bottom:26px;
+}
+.copy-btn-big{
+  font-size:1rem;
+  padding:16px 32px;
+}
+
+/* ===== FAQ ===== */
 .faq-list{display:grid;gap:12px;margin-top:26px}
 .faq-item{
   background:var(--card);border:1px solid var(--border);border-radius:16px;
@@ -708,6 +759,7 @@ footer{
       <button data-tab="apply">Заявки</button>
       <button data-tab="safety">Безопасность</button>
       <button data-tab="faq">FAQ</button>
+      <button data-tab="promo">Пиар</button>
       <button data-tab="contacts">Создатели</button>
     </nav>
     <button class="theme-btn" id="themeBtn" title="Сменить тему">🌙</button>
@@ -756,7 +808,7 @@ footer{
       <div class="btn-row">
         <a class="btn primary" href="https://discord.gg/QS2g7reeF" target="_blank" rel="noopener">💬 Наш Discord</a>
         <button class="btn" onclick="show('join')">🚀 Как зайти</button>
-        <button class="btn" onclick="show('apply')">📝 Подать заявку</button>
+        <button class="btn" onclick="show('promo')">📢 Пиар</button>
       </div>
     </div>
 
@@ -1326,6 +1378,55 @@ footer{
   </div>
 </section>
 
+<!-- ================= ПИАР ================= -->
+<section class="tab" id="promo">
+  <div class="section-head">
+    <h2>Пиар сервера</h2>
+    <p class="promo-intro">
+      Хочешь помочь NovaSMP стать больше и круче? Ниже — готовый текст, который можно
+      кидать в чаты, Discord-сервера, TikTok-комментарии, Telegram-каналы и куда угодно ещё.
+      Чем больше людей узнает о нас — тем веселее играть!
+    </p>
+  </div>
+
+  <div class="promo-text-box">
+    <div class="promo-text" id="promoText">!!! Создан новый SMP сервер !!! Познакомьтесь с новым проектом NovaSMP !!! 
+1. Тут вы найдете себе классных друзей и тимейтов 
+2. Сервер абсолютно ванилен и НЕ нужно скачивать 300+ модов ( желательно можно скачать Simple Voice Chat ) 
+3. Новая версия 1.21.11, в этой версии как раз есть булава и копьё! 
+4. Булавы будет только 2, чтоб поддержать баланс сервера и не устроить мясорубку 
+5. Нет привата! будет защищен только спавн, и можно будет гриферить базы других людей! 
+6. Можно играть с любого возраста! 
+Подробнее на сайте: https://z1ro-vibecode.github.io/NovaSMP/#home</div>
+  </div>
+
+  <div class="copy-btn-wrap">
+    <button class="btn primary copy-btn-big" onclick="copyPromo()">📋 Скопировать текст</button>
+    <button class="btn" onclick="show('join')">🚀 Как зайти на сервер</button>
+  </div>
+
+  <div class="grid c2" style="margin-top:26px">
+    <div class="card reveal">
+      <span class="icon">💬</span>
+      <h3>Куда кидать?</h3>
+      <p>Discord-сервера про Minecraft, TikTok-комментарии, YouTube-комментарии,
+      Telegram-чаты, VK-паблики, форумы, чаты друзей — везде, где могут быть
+      заинтересованные игроки.</p>
+    </div>
+    <div class="card reveal">
+      <span class="icon">🎁</span>
+      <h3>Бонус за пиар</h3>
+      <p>Активные пиарщики получают особую роль в Discord и приятные подарки в игре.
+      Пиши в <b>#поддержка</b>, если привёл много игроков.</p>
+    </div>
+  </div>
+
+  <div class="note">
+    📢 <b>Просьба:</b> не спамь одним и тем же текстом в одном чате — это может привести
+    к бану на самом сервере Discord. Лучше пиши один раз в разные места.
+  </div>
+</section>
+
 <!-- ================= СОЗДАТЕЛИ / КОНТАКТЫ ================= -->
 <section class="tab" id="contacts">
   <div class="section-head">
@@ -1441,7 +1542,7 @@ window.addEventListener('load', () => {
   }
   loop();
 
-  document.querySelectorAll('a, button, .card, .faq-q, .creator-row, .ip-hero').forEach(el => {
+  document.querySelectorAll('a, button, .card, .faq-q, .creator-row, .ip-hero, .promo-text-box').forEach(el => {
     el.addEventListener('mouseenter', () => ring.classList.add('hover'));
     el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
   });
@@ -1511,19 +1612,40 @@ function toast(msg){
 const SERVER_IP = 'timatima.msk.millida.host';
 
 function copyIP(){
-  navigator.clipboard.writeText(SERVER_IP).then(
-    () => toast('✅ IP скопирован: ' + SERVER_IP),
-    () => {
-      // фолбэк, если clipboard недоступен
-      const tmp = document.createElement('textarea');
-      tmp.value = SERVER_IP;
-      document.body.appendChild(tmp);
-      tmp.select();
-      try { document.execCommand('copy'); toast('✅ IP скопирован: ' + SERVER_IP); }
-      catch(e){ toast('IP: ' + SERVER_IP); }
-      document.body.removeChild(tmp);
-    }
-  );
+  copyToClipboard(SERVER_IP, '✅ IP скопирован: ' + SERVER_IP);
+}
+
+/* ================== КОПИРОВАНИЕ ПРОМО-ТЕКСТА ================== */
+function copyPromo(){
+  const promo = document.getElementById('promoText').textContent;
+  copyToClipboard(promo, '✅ Промо-текст скопирован! Вставляй куда хочешь 📢');
+}
+
+/* Универсальная функция копирования с фолбэком */
+function copyToClipboard(text, successMsg){
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(
+      () => toast(successMsg),
+      () => fallbackCopy(text, successMsg)
+    );
+  } else {
+    fallbackCopy(text, successMsg);
+  }
+}
+function fallbackCopy(text, successMsg){
+  const tmp = document.createElement('textarea');
+  tmp.value = text;
+  tmp.style.position = 'fixed';
+  tmp.style.opacity = '0';
+  document.body.appendChild(tmp);
+  tmp.select();
+  try {
+    document.execCommand('copy');
+    toast(successMsg);
+  } catch(e){
+    toast('⚠️ Не удалось скопировать. Выдели текст вручную.');
+  }
+  document.body.removeChild(tmp);
 }
 
 const revealObserver = new IntersectionObserver((entries) => {
