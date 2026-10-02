@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NovaSMP — Minecraft сервер 1.21.11 Fabric | 24/7</title>
-<meta name="description" content="NovaSMP — открытый Minecraft сервер 1.21.11 на Fabric с модом Simple Voice Chat. IP: timatima.msk.millida.host. Работает 24/7.">
+<meta name="description" content="NovaSMP — открытый Minecraft сервер 1.21.11 на Fabric с модом Simple Voice Chat. IP: timatima.msk.millida.host. Скачай лаунчер и играй!">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Unbounded:wght@500;700;900&display=swap" rel="stylesheet">
@@ -266,6 +266,22 @@ p{color:var(--muted);font-size:1rem}
   padding:6px 12px;border-radius:8px;
   background:linear-gradient(115deg,var(--accent),var(--accent-2));
   color:#fff;
+}
+
+/* === Кнопка скачать лаунчер на главной === */
+.download-block{
+  margin-bottom:24px;
+}
+.download-btn-big{
+  font-size:1rem;
+  padding:16px 34px;
+  box-shadow:0 14px 38px var(--glow);
+}
+.download-hint{
+  margin-top:10px;
+  font-size:.85rem;
+  color:var(--muted);
+  max-width:520px;
 }
 
 /* === Новости === */
@@ -568,7 +584,6 @@ p{color:var(--muted);font-size:1rem}
 }
 .creator-info .role{font-size:.88rem;color:var(--muted)}
 
-/* ===== ПИАР ===== */
 .promo-intro{
   max-width:720px;margin-bottom:26px;
 }
@@ -609,7 +624,6 @@ p{color:var(--muted);font-size:1rem}
   color:var(--accent-2);
   word-break:break-all;
 }
-
 .copy-btn-wrap{
   display:flex;flex-wrap:wrap;gap:12px;align-items:center;
   margin-bottom:26px;
@@ -619,7 +633,6 @@ p{color:var(--muted);font-size:1rem}
   padding:16px 32px;
 }
 
-/* ===== FAQ ===== */
 .faq-list{display:grid;gap:12px;margin-top:26px}
 .faq-item{
   background:var(--card);border:1px solid var(--border);border-radius:16px;
@@ -872,6 +885,18 @@ footer{
         <span class="ip-copy">📋 Копировать</span>
       </div>
 
+      <div class="download-block">
+        <a class="btn primary download-btn-big"
+           href="https://drive.google.com/uc?export=download&id=1JFHmb9t-bc4krh1-kgBxclmFW68Extyc"
+           download="NovaSMP-Launcher.exe">
+          ⬇️ Скачать лаунчер NovaSMP
+        </a>
+        <p class="download-hint">
+          Лаунчер сам установит Minecraft 1.21.11 Fabric, нужные моды и добавит наш сервер
+          в список. Просто введи ник и нажми «Играть».
+        </p>
+      </div>
+
       <div class="btn-row">
         <a class="btn primary" href="https://discord.gg/QS2g7reeF" target="_blank" rel="noopener">💬 Наш Discord</a>
         <button class="btn" onclick="show('join')">🚀 Как зайти</button>
@@ -947,9 +972,9 @@ footer{
   </div>
 
   <div class="note">
-    💡 <b>Совет новичку:</b> в первую очередь поставь <b>Simple Voice Chat</b> для Fabric
-    на версию 1.21.11 — без него ты не сможешь общаться голосом. Ссылка на мод есть
-    в разделе «Как зайти».
+    💡 <b>Совет новичку:</b> скачай наш <b>лаунчер</b> — он сам поставит всё нужное.
+    Или, если хочешь вручную, поставь <b>Simple Voice Chat</b> для Fabric на 1.21.11,
+    без него не услышишь других игроков.
   </div>
 </section>
 
@@ -987,27 +1012,44 @@ footer{
 <section class="tab" id="join">
   <div class="section-head">
     <h2>Как зайти на сервер</h2>
-    <p>Всё просто: скачай Fabric, поставь один мод — и ты в игре. Пошагово ниже.</p>
+    <p>Скачай наш лаунчер — и всё готово. Или поставь вручную, если хочешь. Пошагово ниже.</p>
   </div>
 
-  <div class="grid c2" style="margin-top:26px">
+  <div class="grid c3" style="margin-top:26px">
     <div class="card reveal" style="border-color:color-mix(in srgb,var(--accent) 40%,var(--border))">
       <span class="icon">🔌</span>
       <h3>IP-адрес сервера</h3>
-      <p style="font-family:var(--font-h);font-size:1.15rem;color:var(--text);margin:10px 0;word-break:break-all">
+      <p style="font-family:var(--font-h);font-size:1.05rem;color:var(--text);margin:10px 0;word-break:break-all">
         timatima.msk.millida.host</p>
       <button class="btn primary" onclick="copyIP()">📋 Скопировать IP</button>
+    </div>
+    <div class="card reveal" style="border-color:color-mix(in srgb,var(--accent-2) 45%,var(--border))">
+      <span class="icon">🚀</span>
+      <h3>Лаунчер NovaSMP</h3>
+      <p>Скачай наш лаунчер — он сам установит Minecraft 1.21.11 Fabric, нужные моды
+      и добавит сервер в список. Просто введи ник и нажми «Играть».</p>
+      <a class="btn primary"
+         href="https://drive.google.com/uc?export=download&id=1JFHmb9t-bc4krh1-kgBxclmFW68Extyc"
+         download="NovaSMP-Launcher.exe"
+         style="margin-top:14px">
+        ⬇️ Скачать лаунчер
+      </a>
     </div>
     <div class="card reveal">
       <span class="icon">🎙️</span>
       <h3>Simple Voice Chat</h3>
-      <p>Обязательный мод для голосового общения. Без него ты не услышишь других игроков.
-      Голос работает через проксимити — слышно только тех, кто рядом.</p>
+      <p>Мод для голосового общения в игре. Слышно только тех, кто рядом — как в реальной жизни.</p>
       <a class="btn" href="https://modrinth.com/plugin/simple-voice-chat" target="_blank" rel="noopener" style="margin-top:14px">Скачать мод</a>
     </div>
   </div>
 
-  <div class="steps" style="margin-top:26px">
+  <div class="divider"></div>
+
+  <h3 style="font-family:var(--font-h);font-size:1.15rem;margin-bottom:14px">
+    Ручная установка (если не хочешь лаунчер)
+  </h3>
+
+  <div class="steps">
     <div class="step">
       <div><b>Установи Minecraft 1.21.11</b>
       <span>В лаунчере выбери версию <code>1.21.11</code>. Подойдёт как лицензия, так и пиратка.</span></div>
@@ -1269,6 +1311,20 @@ footer{
   </div>
 
   <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span>⬇️ Где скачать лаунчер?</span>
+        <span class="faq-arrow">▾</span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          Лаунчер можно скачать прямо с сайта — кнопка <b>«Скачать лаунчер NovaSMP»</b> на главной
+          странице или во вкладке «Как зайти». Он сам установит Minecraft 1.21.11 Fabric,
+          нужные моды и добавит наш сервер в список.
+        </div>
+      </div>
+    </div>
+
     <div class="faq-item">
       <button class="faq-q" onclick="toggleFaq(this)">
         <span>🚀 Какой IP у сервера?</span>
@@ -1544,6 +1600,15 @@ footer{
     </div>
 
     <div class="roadmap-item reveal">
+      <div class="roadmap-icon">🟢</div>
+      <div class="roadmap-body">
+        <b>Собственный лаунчер</b>
+        <span>Удобный лаунчер с автоустановкой Minecraft, модов и сервера.</span>
+      </div>
+      <span class="roadmap-status done">Сделано</span>
+    </div>
+
+    <div class="roadmap-item reveal">
       <div class="roadmap-icon">🟡</div>
       <div class="roadmap-body">
         <b>Ивенты и квесты</b>
@@ -1575,15 +1640,6 @@ footer{
       <div class="roadmap-body">
         <b>Сезонные ивенты</b>
         <span>Хэллоуин, Новый год, летние фестивали — с уникальными наградами.</span>
-      </div>
-      <span class="roadmap-status plan">В планах</span>
-    </div>
-
-    <div class="roadmap-item reveal">
-      <div class="roadmap-icon">🟣</div>
-      <div class="roadmap-body">
-        <b>Собственный лаунчер</b>
-        <span>Удобный лаунчер с автообновлением модов и быстрым входом на сервер.</span>
       </div>
       <span class="roadmap-status plan">В планах</span>
     </div>
